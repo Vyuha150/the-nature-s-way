@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import bowl from "@/assets/hero-bowl.jpg";
 import turmeric from "@/assets/prod-turmeric.jpg";
@@ -27,25 +27,21 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
-      {/* Background image — cross-fades with active product */}
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={active}
-          initial={{ scale: 1.12, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0"
-        >
-          <img
-            src={active === 0 ? bowl : showcase[active].img}
-            alt=""
-            className="h-full w-full object-cover opacity-90"
-            width={1920}
-            height={1080}
-          />
-        </motion.div>
-      </AnimatePresence>
+      {/* Background image — static bowl */}
+      <motion.div
+        initial={{ scale: 1.12, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0"
+      >
+        <img
+          src={bowl}
+          alt="A rustic bowl of organic grains, dates and nuts"
+          className="h-full w-full object-cover opacity-90"
+          width={1920}
+          height={1080}
+        />
+      </motion.div>
       <div className="absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/80 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink to-transparent" />
