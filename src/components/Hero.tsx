@@ -47,32 +47,34 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="mb-8 flex items-center gap-3 text-honey"
+          className="relative mx-auto w-full max-w-3xl rounded-md border border-linen/15 bg-ink/55 px-8 py-12 shadow-soft backdrop-blur-md md:px-14 md:py-16"
         >
-          <Logo tone="honey" className="h-6 w-6" />
-          <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
-          <Logo tone="honey" className="h-6 w-6" />
+          <div className="mb-6 flex items-center justify-center gap-3 text-honey">
+            <Logo tone="honey" className="h-6 w-6" />
+            <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
+            <Logo tone="honey" className="h-6 w-6" />
+          </div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 1 }}
+            className="font-display text-5xl font-light leading-[0.95] text-balance md:text-7xl lg:text-[6rem]"
+          >
+            Nothing<br />
+            <em className="italic text-honey">Hidden.</em>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.8 }}
+            className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-linen/85 md:text-lg"
+          >
+            Only conventional, natural and organic consumables — in their native form,
+            close to nature. Every ingredient, every quantity, printed plainly on the front.
+          </motion.p>
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 1 }}
-          className="font-display text-5xl font-light leading-[0.95] text-balance md:text-7xl lg:text-[7rem]"
-        >
-          Nothing<br />
-          <em className="italic text-honey">Hidden.</em>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-          className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-linen/80"
-        >
-          Only conventional, natural and organic consumables — in their native form,
-          close to nature. Every ingredient, every quantity, printed plainly on the front.
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
