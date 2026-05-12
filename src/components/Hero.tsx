@@ -1,83 +1,107 @@
 import { motion } from "framer-motion";
-import hero from "@/assets/hero-grains.jpg";
+import bowl from "@/assets/hero-bowl.jpg";
 import { Logo } from "./Logo";
+import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
 
 export const Hero = () => {
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
+      {/* Background image */}
       <motion.div
         initial={{ scale: 1.15, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
         className="absolute inset-0"
       >
-        <img src={hero} alt="A bowl of organic grains, nuts and dried fruits" className="h-full w-full object-cover opacity-70" width={1600} height={1200} />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/30 to-transparent" />
+        <img
+          src={bowl}
+          alt="A rustic bowl of organic grains, dates and nuts surrounded by green leaves"
+          className="h-full w-full object-cover opacity-55"
+          width={1920}
+          height={1080}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/55 to-ink" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_hsl(var(--ink))_85%)]" />
       </motion.div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 pb-16 pt-40">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="mb-6 flex items-center gap-3 text-honey"
-          >
-            <Logo tone="honey" className="h-6 w-6" />
-            <span className="text-[10px] uppercase tracking-[0.4em]">Est. From The Earth</span>
-          </motion.div>
+      {/* Floating leaves */}
+      <motion.div
+        animate={{ y: [0, -12, 0], rotate: [0, 6, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-6 top-32 hidden text-honey/40 md:block"
+      >
+        <Leaf size={48} strokeWidth={1} />
+      </motion.div>
+      <motion.div
+        animate={{ y: [0, 14, 0], rotate: [0, -8, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute right-10 top-48 hidden text-honey/30 md:block"
+      >
+        <Sprout size={56} strokeWidth={1} />
+      </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            className="font-display text-6xl font-light leading-[0.95] text-balance md:text-8xl lg:text-[8.5rem]"
-          >
-            Nothing<br />
-            <em className="italic text-honey">Hidden.</em>
-          </motion.h1>
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 pt-32 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="mb-8 flex items-center gap-3 text-honey"
+        >
+          <Logo tone="honey" className="h-6 w-6" />
+          <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
+          <Logo tone="honey" className="h-6 w-6" />
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="mt-8 max-w-xl text-lg font-light leading-relaxed text-linen/80"
-          >
-            Only conventional, natural and organic consumables — in their native form,
-            close to nature. Every ingredient, every quantity, printed plainly on the front.
-          </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 1 }}
+          className="font-display text-5xl font-light leading-[0.95] text-balance md:text-7xl lg:text-[7rem]"
+        >
+          Nothing<br />
+          <em className="italic text-honey">Hidden.</em>
+        </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
-          >
-            <a href="#range" className="group relative overflow-hidden rounded-sm bg-honey px-8 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
-              <span className="relative z-10">Explore the Range</span>
-            </a>
-            <a href="#trace" className="rounded-sm border border-linen/30 px-8 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
-              Trace a Pack
-            </a>
-          </motion.div>
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.8 }}
+          className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-linen/80"
+        >
+          Only conventional, natural and organic consumables — in their native form,
+          close to nature. Every ingredient, every quantity, printed plainly on the front.
+        </motion.p>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="mt-16 grid grid-cols-2 gap-6 border-t border-linen/10 pt-8 md:grid-cols-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <a href="#range" className="rounded-sm bg-honey px-10 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
+            Explore the Range
+          </a>
+          <a href="#trace" className="rounded-sm border border-linen/30 px-10 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
+            Trace a Pack
+          </a>
+        </motion.div>
+
+        {/* Quick info chips */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.7, duration: 0.8 }}
+          className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4"
         >
           {[
-            ["80+", "Single-origin SKUs"],
-            ["100%", "Front-of-pack honesty"],
-            ["0", "Spray drying. Ever."],
-            ["1", "QR code on every pack"],
-          ].map(([n, l]) => (
-            <div key={l}>
-              <div className="font-display text-3xl text-honey md:text-4xl">{n}</div>
-              <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-linen/60">{l}</div>
+            { i: ShieldCheck, t: "Front-label honesty" },
+            { i: QrCode, t: "QR-traceable packs" },
+            { i: Sprout, t: "Ancient grain revival" },
+            { i: Leaf, t: "Zero-process promise" },
+          ].map(({ i: Icon, t }) => (
+            <div key={t} className="flex items-center gap-3 rounded-sm border border-linen/10 bg-ink/40 px-4 py-3 backdrop-blur-sm">
+              <Icon size={20} className="shrink-0 text-honey" strokeWidth={1.5} />
+              <span className="text-left text-xs text-linen/80">{t}</span>
             </div>
           ))}
         </motion.div>

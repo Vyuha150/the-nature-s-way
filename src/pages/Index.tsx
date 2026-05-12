@@ -1,9 +1,15 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { Services } from "@/components/Services";
 import { Philosophy } from "@/components/Philosophy";
+import { Infographics } from "@/components/Infographics";
 import { Promise } from "@/components/Promise";
+import { Gallery } from "@/components/Gallery";
 import { Range } from "@/components/Range";
 import { Trace } from "@/components/Trace";
+import { Testimonials } from "@/components/Testimonials";
+import { CtaBanner } from "@/components/CtaBanner";
+import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
 
@@ -25,10 +31,16 @@ const Index = () => {
     <main className="min-h-screen bg-linen">
       <Nav />
       <Hero />
+      <Services />
       <Philosophy />
+      <Infographics />
       <Promise />
+      <Gallery />
       <Range />
       <Trace />
+      <Testimonials />
+      <CtaBanner />
+      <Contact />
       <Footer />
     </main>
   );
