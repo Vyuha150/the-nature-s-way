@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import bowl from "@/assets/hero-bowl.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
+import { HeroProductStack } from "./HeroProductStack";
 
 export const Hero = () => {
+  const [tint, setTint] = useState("38 90% 55%");
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
       {/* Background image */}
