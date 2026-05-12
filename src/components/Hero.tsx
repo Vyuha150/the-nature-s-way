@@ -47,7 +47,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="relative mx-auto w-full max-w-3xl rounded-md border border-linen/15 bg-ink/55 px-8 py-12 shadow-soft backdrop-blur-md md:px-14 md:py-16"
+          className="relative mx-auto w-full max-w-3xl px-8 py-12 md:px-14 md:py-16"
         >
           <div className="mb-6 flex items-center justify-center gap-3 text-honey">
             <Logo tone="honey" className="h-6 w-6" />
