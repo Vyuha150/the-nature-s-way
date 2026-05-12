@@ -38,7 +38,7 @@ export const Hero = () => {
       />
 
       {/* Right-side product stack */}
-      <div className="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 lg:block xl:right-16">
+      <div className="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 xl:block xl:right-12 2xl:right-20">
         <HeroProductStack onTintChange={setTint} />
       </div>
 
