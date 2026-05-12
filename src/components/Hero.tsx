@@ -106,7 +106,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.7, duration: 0.8 }}
-          className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4"
+          className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4 lg:max-w-2xl lg:grid-cols-2"
         >
           {[
             { i: ShieldCheck, t: "Front-label honesty" },
