@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import bowl from "@/assets/hero-bowl.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
+import { HeroProductStack } from "./HeroProductStack";
 
 export const Hero = () => {
+  const [tint, setTint] = useState("38 90% 55%");
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
       {/* Background image */}
@@ -25,6 +28,19 @@ export const Hero = () => {
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
       </motion.div>
+
+      {/* Ambient tint that follows the active product card */}
+      <motion.div
+        aria-hidden
+        animate={{ background: `radial-gradient(60% 70% at 80% 50%, hsl(${tint} / 0.28), transparent 70%)` }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="pointer-events-none absolute inset-0 z-[1]"
+      />
+
+      {/* Right-side product stack */}
+      <div className="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 xl:block xl:right-12 2xl:right-20">
+        <HeroProductStack onTintChange={setTint} />
+      </div>
 
       {/* Floating leaves */}
       <motion.div
