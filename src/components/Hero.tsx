@@ -1,30 +1,57 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import bowl from "@/assets/hero-bowl.jpg";
+import turmeric from "@/assets/prod-turmeric.jpg";
+import dates from "@/assets/prod-dates.jpg";
+import seeds from "@/assets/prod-seeds.jpg";
+import moringa from "@/assets/prod-moringa.jpg";
+import flour from "@/assets/story-flour.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
 
+const showcase = [
+  { img: turmeric, t: "Erode Turmeric", c: "Single-origin · 4.8% curcumin", tag: "Root" },
+  { img: dates, t: "Khajoor Reserve", c: "Sun-dried · No glucose", tag: "Fruit" },
+  { img: seeds, t: "Seven-Seed Blend", c: "Cold-stored · 250g", tag: "Seeds" },
+  { img: moringa, t: "Moringa Leaf", c: "Shade-dried · Tamil Nadu", tag: "Greens" },
+  { img: flour, t: "7-Grain Atta", c: "Stone-milled · Solapur", tag: "Flour" },
+];
+
 export const Hero = () => {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setActive((i) => (i + 1) % showcase.length), 3500);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
-      {/* Background image */}
-      <motion.div
-        initial={{ scale: 1.15, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0"
-      >
-        <img
-          src={bowl}
-          alt="A rustic bowl of organic grains, dates and nuts surrounded by green leaves"
-          className="h-full w-full object-cover opacity-90"
-          width={1920}
-          height={1080}
-        />
-        {/* Soft top + bottom fades for nav legibility, keep middle clear */}
+      {/* Background image — cross-fades with active product */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={active}
+          initial={{ scale: 1.12, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          <img
+            src={active === 0 ? bowl : showcase[active].img}
+            alt=""
+            className="h-full w-full object-cover opacity-90"
+            width={1920}
+            height={1080}
+          />
+        </motion.div>
+      </AnimatePresence>
+      <div className="absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/80 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
-      </motion.div>
+        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-ink/80 via-ink/40 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.45)_0%,_hsl(var(--ink)/0.2)_45%,_transparent_75%)]" />
+      </div>
 
       {/* Floating leaves */}
       <motion.div
