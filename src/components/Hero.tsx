@@ -29,6 +29,19 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
       </motion.div>
 
+      {/* Ambient tint that follows the active product card */}
+      <motion.div
+        aria-hidden
+        animate={{ background: `radial-gradient(60% 70% at 80% 50%, hsl(${tint} / 0.28), transparent 70%)` }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="pointer-events-none absolute inset-0 z-[1]"
+      />
+
+      {/* Right-side product stack */}
+      <div className="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 lg:block xl:right-16">
+        <HeroProductStack onTintChange={setTint} />
+      </div>
+
       {/* Floating leaves */}
       <motion.div
         animate={{ y: [0, -12, 0], rotate: [0, 6, 0] }}
