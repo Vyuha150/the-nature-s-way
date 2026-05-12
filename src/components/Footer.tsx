@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
 
 export const Footer = () => {
@@ -47,8 +48,14 @@ export const Footer = () => {
           <div>
             <div className="text-[10px] uppercase tracking-[0.3em] text-earth/60">Explore</div>
             <ul className="mt-4 space-y-2 text-sm">
-              {["Philosophy", "Promise", "Range", "Trace"].map((l) => (
-                <li key={l}><a href={`#${l.toLowerCase()}`} className="hover:text-honey">{l}</a></li>
+              {[
+                { l: "Philosophy", to: "/philosophy" },
+                { l: "Promise", to: "/promise" },
+                { l: "Range", to: "/range" },
+                { l: "Trace", to: "/trace" },
+                { l: "Contact", to: "/contact" },
+              ].map((x) => (
+                <li key={x.l}><Link to={x.to} className="hover:text-honey">{x.l}</Link></li>
               ))}
             </ul>
           </div>
