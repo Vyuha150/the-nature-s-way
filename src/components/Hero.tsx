@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import bowl from "@/assets/hero-bowl.jpg";
 import turmeric from "@/assets/prod-turmeric.jpg";
