@@ -16,12 +16,14 @@ export const Hero = () => {
         <img
           src={bowl}
           alt="A rustic bowl of organic grains, dates and nuts surrounded by green leaves"
-          className="h-full w-full object-cover opacity-55"
+          className="h-full w-full object-cover opacity-90"
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/55 to-ink" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_hsl(var(--ink))_85%)]" />
+        {/* Soft top + bottom fades for nav legibility, keep middle clear */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/80 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
       </motion.div>
 
       {/* Floating leaves */}
@@ -45,32 +47,34 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="mb-8 flex items-center gap-3 text-honey"
+          className="relative mx-auto w-full max-w-3xl rounded-md border border-linen/15 bg-ink/55 px-8 py-12 shadow-soft backdrop-blur-md md:px-14 md:py-16"
         >
-          <Logo tone="honey" className="h-6 w-6" />
-          <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
-          <Logo tone="honey" className="h-6 w-6" />
+          <div className="mb-6 flex items-center justify-center gap-3 text-honey">
+            <Logo tone="honey" className="h-6 w-6" />
+            <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
+            <Logo tone="honey" className="h-6 w-6" />
+          </div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 1 }}
+            className="font-display text-5xl font-light leading-[0.95] text-balance md:text-7xl lg:text-[6rem]"
+          >
+            Nothing<br />
+            <em className="italic text-honey">Hidden.</em>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.8 }}
+            className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-linen/85 md:text-lg"
+          >
+            Only conventional, natural and organic consumables — in their native form,
+            close to nature. Every ingredient, every quantity, printed plainly on the front.
+          </motion.p>
         </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 1 }}
-          className="font-display text-5xl font-light leading-[0.95] text-balance md:text-7xl lg:text-[7rem]"
-        >
-          Nothing<br />
-          <em className="italic text-honey">Hidden.</em>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.8 }}
-          className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-linen/80"
-        >
-          Only conventional, natural and organic consumables — in their native form,
-          close to nature. Every ingredient, every quantity, printed plainly on the front.
-        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
