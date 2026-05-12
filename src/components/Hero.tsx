@@ -67,19 +67,23 @@ export const Hero = () => {
 
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 0.8 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
-          <a href="#range" className="rounded-sm bg-honey px-10 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
-            Explore the Range
-          </a>
-          <a href="#trace" className="rounded-sm border border-linen/30 px-10 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
-            Trace a Pack
-          </a>
-        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+        className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 flex-wrap items-center justify-center gap-4"
+      >
+        <a href="#range" className="rounded-sm bg-honey px-10 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
+          Explore the Range
+        </a>
+        <a href="#trace" className="rounded-sm border border-linen/30 px-10 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
+          Trace a Pack
+        </a>
+      </motion.div>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pb-32">
 
         {/* Quick info chips */}
         <motion.div
