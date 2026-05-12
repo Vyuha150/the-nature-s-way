@@ -42,14 +42,14 @@ export const Hero = () => {
         <Sprout size={56} strokeWidth={1} />
       </motion.div>
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 pt-32 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-start justify-center px-6 pt-32 text-left">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="relative mx-auto w-full max-w-3xl px-8 py-12 md:px-14 md:py-16"
+          className="relative w-full max-w-3xl py-12 md:py-16"
         >
-          <div className="mb-6 flex items-center justify-center gap-3 text-honey">
+          <div className="mb-6 flex items-center justify-start gap-3 text-honey">
             <Logo tone="honey" className="h-6 w-6" />
             <span className="text-[10px] uppercase tracking-[0.5em]">The Nature's Way</span>
             <Logo tone="honey" className="h-6 w-6" />
@@ -69,7 +69,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 0.8 }}
-            className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-linen/85 md:text-lg"
+            className="mt-8 max-w-xl text-base font-light leading-relaxed text-linen/85 md:text-lg"
           >
             Only conventional, natural and organic consumables — in their native form,
             close to nature. Every ingredient, every quantity, printed plainly on the front.
