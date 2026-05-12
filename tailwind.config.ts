@@ -13,12 +13,22 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        linen: "hsl(var(--linen))",
+        grain: "hsl(var(--grain))",
+        honey: "hsl(var(--honey))",
+        earth: "hsl(var(--earth))",
+        umber: "hsl(var(--umber))",
+        ink: "hsl(var(--ink))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
