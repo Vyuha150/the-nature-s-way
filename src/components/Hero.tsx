@@ -65,15 +65,6 @@ export const Hero = () => {
             <em className="italic text-honey">Hidden.</em>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-            className="mt-8 max-w-xl text-base font-light leading-relaxed text-linen/85 md:text-lg"
-          >
-            Only conventional, natural and organic consumables — in their native form,
-            close to nature. Every ingredient, every quantity, printed plainly on the front.
-          </motion.p>
         </motion.div>
 
         <motion.div
