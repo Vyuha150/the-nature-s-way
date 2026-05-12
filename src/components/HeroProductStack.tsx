@@ -45,7 +45,7 @@ export const HeroProductStack = ({ onTintChange }: Props) => {
   });
 
   return (
-    <div className="pointer-events-none relative h-[460px] w-[300px] lg:h-[520px] lg:w-[340px]">
+    <div className="pointer-events-none relative h-[400px] w-[240px] lg:h-[440px] lg:w-[260px] xl:h-[520px] xl:w-[320px]">
       <AnimatePresence>
         {visible.map((c) => {
           const isTop = c.offset === 0;
