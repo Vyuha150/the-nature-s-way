@@ -16,12 +16,14 @@ export const Hero = () => {
         <img
           src={bowl}
           alt="A rustic bowl of organic grains, dates and nuts surrounded by green leaves"
-          className="h-full w-full object-cover opacity-55"
+          className="h-full w-full object-cover opacity-90"
           width={1920}
           height={1080}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/55 to-ink" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_hsl(var(--ink))_85%)]" />
+        {/* Soft top + bottom fades for nav legibility, keep middle clear */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/80 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-ink to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
       </motion.div>
 
       {/* Floating leaves */}
