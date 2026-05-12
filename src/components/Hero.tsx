@@ -1,12 +1,9 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import bowl from "@/assets/hero-bowl.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
-import { HeroProductStack } from "./HeroProductStack";
 
 export const Hero = () => {
-  const [tint, setTint] = useState("38 90% 55%");
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
       {/* Background image */}
@@ -29,19 +26,6 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--ink)/0.55)_0%,_hsl(var(--ink)/0.25)_45%,_transparent_75%)]" />
       </motion.div>
 
-      {/* Ambient tint that follows the active product card */}
-      <motion.div
-        aria-hidden
-        animate={{ background: `radial-gradient(60% 70% at 80% 50%, hsl(${tint} / 0.28), transparent 70%)` }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="pointer-events-none absolute inset-0 z-[1]"
-      />
-
-      {/* Right-side product stack */}
-      <div className="pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 lg:block xl:right-10 2xl:right-20">
-        <HeroProductStack onTintChange={setTint} />
-      </div>
-
       {/* Floating leaves */}
       <motion.div
         animate={{ y: [0, -12, 0], rotate: [0, 6, 0] }}
@@ -53,7 +37,7 @@ export const Hero = () => {
       <motion.div
         animate={{ y: [0, 14, 0], rotate: [0, -8, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-10 top-48 hidden text-honey/30 md:block lg:hidden"
+        className="absolute right-10 top-48 hidden text-honey/30 md:block"
       >
         <Sprout size={56} strokeWidth={1} />
       </motion.div>
@@ -83,30 +67,26 @@ export const Hero = () => {
 
         </motion.div>
 
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.4, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 flex-wrap items-center justify-center gap-4"
-      >
-        <a href="#range" className="rounded-sm bg-honey px-10 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
-          Explore the Range
-        </a>
-        <a href="#trace" className="rounded-sm border border-linen/30 px-10 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
-          Trace a Pack
-        </a>
-      </motion.div>
-
-      <div className="relative z-10 mx-auto max-w-6xl px-6 pb-40">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <a href="#range" className="rounded-sm bg-honey px-10 py-4 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey">
+            Explore the Range
+          </a>
+          <a href="#trace" className="rounded-sm border border-linen/30 px-10 py-4 text-xs uppercase tracking-[0.25em] text-linen transition-colors hover:border-honey hover:text-honey">
+            Trace a Pack
+          </a>
+        </motion.div>
 
         {/* Quick info chips */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.7, duration: 0.8 }}
-          className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4 lg:max-w-2xl lg:grid-cols-2"
+          className="mt-20 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4"
         >
           {[
             { i: ShieldCheck, t: "Front-label honesty" },
