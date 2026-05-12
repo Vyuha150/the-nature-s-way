@@ -38,7 +38,7 @@ export const Hero = () => {
       />
 
       {/* Right-side product stack */}
-      <div className="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 xl:block xl:right-12 2xl:right-20">
+      <div className="pointer-events-none absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 lg:block xl:right-10 2xl:right-20">
         <HeroProductStack onTintChange={setTint} />
       </div>
 
@@ -53,7 +53,7 @@ export const Hero = () => {
       <motion.div
         animate={{ y: [0, 14, 0], rotate: [0, -8, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-10 top-48 hidden text-honey/30 md:block"
+        className="absolute right-10 top-48 hidden text-honey/30 md:block lg:hidden"
       >
         <Sprout size={56} strokeWidth={1} />
       </motion.div>
