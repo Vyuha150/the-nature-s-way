@@ -1,29 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import bowl from "@/assets/hero-bowl.jpg";
-import turmeric from "@/assets/prod-turmeric.jpg";
-import dates from "@/assets/prod-dates.jpg";
-import seeds from "@/assets/prod-seeds.jpg";
-import moringa from "@/assets/prod-moringa.jpg";
-import flour from "@/assets/story-flour.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
 
-const showcase = [
-  { img: turmeric, t: "Erode Turmeric", c: "Single-origin · 4.8% curcumin", tag: "Root" },
-  { img: dates, t: "Khajoor Reserve", c: "Sun-dried · No glucose", tag: "Fruit" },
-  { img: seeds, t: "Seven-Seed Blend", c: "Cold-stored · 250g", tag: "Seeds" },
-  { img: moringa, t: "Moringa Leaf", c: "Shade-dried · Tamil Nadu", tag: "Greens" },
-  { img: flour, t: "7-Grain Atta", c: "Stone-milled · Solapur", tag: "Flour" },
-];
-
 export const Hero = () => {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setActive((i) => (i + 1) % showcase.length), 3500);
-    return () => clearInterval(id);
-  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
@@ -65,61 +45,6 @@ export const Hero = () => {
         <Sprout size={56} strokeWidth={1} />
       </motion.div>
 
-      {/* Right-side stacked product cards */}
-      <div className="pointer-events-none absolute right-6 top-1/2 z-20 hidden h-[420px] w-[260px] -translate-y-1/2 lg:block xl:right-12 xl:w-[300px]">
-        <div className="relative h-full w-full">
-          {showcase.map((p, i) => {
-            const offset = (i - active + showcase.length) % showcase.length;
-            const isActive = offset === 0;
-            return (
-              <motion.div
-                key={p.t}
-                initial={false}
-                animate={{
-                  y: offset * 22,
-                  x: offset * 14,
-                  scale: 1 - offset * 0.06,
-                  opacity: offset > 3 ? 0 : 1 - offset * 0.18,
-                  rotate: offset * 2.5,
-                  zIndex: showcase.length - offset,
-                }}
-                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="pointer-events-auto absolute inset-0 overflow-hidden rounded-md border border-linen/15 bg-ink shadow-2xl shadow-black/60"
-                style={{ zIndex: showcase.length - offset }}
-              >
-                <div className="relative h-[68%] w-full overflow-hidden">
-                  <motion.img
-                    src={p.img}
-                    alt={p.t}
-                    className="h-full w-full object-cover"
-                    animate={{ scale: isActive ? 1.05 : 1 }}
-                    transition={{ duration: 4, ease: "easeOut" }}
-                  />
-                  <div className="absolute left-3 top-3 rounded-full bg-honey/90 px-3 py-1 text-[9px] uppercase tracking-[0.3em] text-ink">
-                    {p.tag}
-                  </div>
-                </div>
-                <div className="flex h-[32%] flex-col justify-center px-5">
-                  <div className="text-[9px] uppercase tracking-[0.3em] text-honey">{p.c}</div>
-                  <h3 className="mt-1 font-display text-xl leading-tight text-linen">{p.t}</h3>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* progress dots */}
-        <div className="absolute -bottom-10 left-0 flex gap-2">
-          {showcase.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`h-1 rounded-full transition-all ${i === active ? "w-8 bg-honey" : "w-3 bg-linen/30"}`}
-              aria-label={`Show product ${i + 1}`}
-            />
-          ))}
-        </div>
-      </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-start justify-center px-6 pt-32 text-left">
         <motion.div
