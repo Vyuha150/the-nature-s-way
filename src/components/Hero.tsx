@@ -1,29 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import bowl from "@/assets/hero-bowl.jpg";
-import turmeric from "@/assets/prod-turmeric.jpg";
-import dates from "@/assets/prod-dates.jpg";
-import seeds from "@/assets/prod-seeds.jpg";
-import moringa from "@/assets/prod-moringa.jpg";
-import flour from "@/assets/story-flour.jpg";
 import { Logo } from "./Logo";
 import { Leaf, ShieldCheck, QrCode, Sprout } from "lucide-react";
 
-const showcase = [
-  { img: turmeric, t: "Erode Turmeric", c: "Single-origin · 4.8% curcumin", tag: "Root" },
-  { img: dates, t: "Khajoor Reserve", c: "Sun-dried · No glucose", tag: "Fruit" },
-  { img: seeds, t: "Seven-Seed Blend", c: "Cold-stored · 250g", tag: "Seeds" },
-  { img: moringa, t: "Moringa Leaf", c: "Shade-dried · Tamil Nadu", tag: "Greens" },
-  { img: flour, t: "7-Grain Atta", c: "Stone-milled · Solapur", tag: "Flour" },
-];
-
 export const Hero = () => {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setActive((i) => (i + 1) % showcase.length), 3500);
-    return () => clearInterval(id);
-  }, []);
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-ink text-linen">
