@@ -33,7 +33,7 @@ const navItems = [
   { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
 
-const futureItems = [
+const opsItems = [
   { title: "Products", url: "/admin/products", icon: Package },
   { title: "Orders", url: "/admin/orders", icon: ShoppingCart },
   { title: "Customers", url: "/admin/customers", icon: Users },
@@ -90,14 +90,16 @@ export default function AdminLayout() {
               </SidebarGroup>
 
               <SidebarGroup>
-                <SidebarGroupLabel>Operations (coming soon)</SidebarGroupLabel>
+                <SidebarGroupLabel>Operations</SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {futureItems.map((item) => (
+                    {opsItems.map((item) => (
                       <SidebarMenuItem key={item.url}>
-                        <SidebarMenuButton disabled className="opacity-50 cursor-not-allowed">
-                          <item.icon />
-                          <span>{item.title}</span>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith(item.url)}>
+                          <NavLink to={item.url}>
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </NavLink>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}

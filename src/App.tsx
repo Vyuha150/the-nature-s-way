@@ -14,6 +14,10 @@ import AdminLayout from "./admin/AdminLayout.tsx";
 import AdminLogin from "./admin/pages/AdminLogin.tsx";
 import AdminDashboard from "./admin/pages/AdminDashboard.tsx";
 import AdminAnalytics from "./admin/pages/AdminAnalytics.tsx";
+import AdminProducts from "./admin/pages/AdminProducts.tsx";
+import AdminOrders from "./admin/pages/AdminOrders.tsx";
+import AdminCustomers from "./admin/pages/AdminCustomers.tsx";
+import AdminContent from "./admin/pages/AdminContent.tsx";
 import ProtectedAdminRoute from "./admin/ProtectedAdminRoute.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -37,6 +41,10 @@ const App = () => (
           <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
             <Route index element={<AdminDashboard />} />
             <Route path="analytics" element={<AdminAnalytics />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="customers" element={<AdminCustomers />} />
+            <Route path="content" element={<AdminContent />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
