@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LayoutDashboard } from "lucide-react";
 import { Logo } from "./Logo";
 
 const links = [
@@ -56,12 +56,22 @@ export const Nav = () => {
           ))}
         </nav>
 
-        <Link
-          to="/range"
-          className="hidden rounded-sm border border-honey/60 px-5 py-2 text-xs uppercase tracking-[0.2em] text-honey transition-all hover:bg-honey hover:text-ink md:inline-block"
-        >
-          Shop Range
-        </Link>
+        <div className="hidden items-center gap-3 md:flex">
+          <Link
+            to="/admin"
+            aria-label="Admin panel"
+            title="Admin panel"
+            className="grid h-9 w-9 place-items-center rounded-sm border border-honey/60 text-honey transition-all hover:bg-honey hover:text-ink"
+          >
+            <LayoutDashboard size={16} />
+          </Link>
+          <Link
+            to="/range"
+            className="rounded-sm border border-honey/60 px-5 py-2 text-xs uppercase tracking-[0.2em] text-honey transition-all hover:bg-honey hover:text-ink"
+          >
+            Shop Range
+          </Link>
+        </div>
 
         <button
           onClick={() => setOpen((v) => !v)}
