@@ -10,6 +10,11 @@ import PromisePage from "./pages/PromisePage.tsx";
 import RangePage from "./pages/RangePage.tsx";
 import TracePage from "./pages/TracePage.tsx";
 import ContactPage from "./pages/ContactPage.tsx";
+import AdminLayout from "./admin/AdminLayout.tsx";
+import AdminLogin from "./admin/pages/AdminLogin.tsx";
+import AdminDashboard from "./admin/pages/AdminDashboard.tsx";
+import AdminAnalytics from "./admin/pages/AdminAnalytics.tsx";
+import ProtectedAdminRoute from "./admin/ProtectedAdminRoute.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +33,11 @@ const App = () => (
           <Route path="/range" element={<RangePage />} />
           <Route path="/trace" element={<TracePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="analytics" element={<AdminAnalytics />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

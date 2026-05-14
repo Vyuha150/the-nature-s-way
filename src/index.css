@@ -73,6 +73,43 @@
   ::selection { background: hsl(var(--honey) / 0.4); color: hsl(var(--ink)); }
 }
 
+/* Neutral SaaS theme scoped to admin panel */
+.admin-theme {
+  --background: 220 20% 98%;
+  --foreground: 222 25% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 25% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 25% 12%;
+  --primary: 222 47% 16%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 25% 12%;
+  --muted: 220 14% 95%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 221 83% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 221 83% 53%;
+  --radius: 0.5rem;
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 222 25% 18%;
+  --sidebar-primary: 222 47% 16%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 14% 96%;
+  --sidebar-accent-foreground: 222 25% 12%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 221 83% 53%;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.admin-theme h1, .admin-theme h2, .admin-theme h3, .admin-theme h4 {
+  font-family: 'Inter', system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
 @layer utilities {
   .text-balance { text-wrap: balance; }
   .bg-gradient-warm { background: var(--gradient-warm); }
