@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { NatureSource } from "@/components/NatureSource";
 import { Services } from "@/components/Services";
 import { Philosophy } from "@/components/Philosophy";
 import { Infographics } from "@/components/Infographics";
