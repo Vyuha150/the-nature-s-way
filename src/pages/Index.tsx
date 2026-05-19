@@ -32,6 +32,7 @@ const Index = () => {
     <main className="min-h-screen bg-linen">
       <Nav />
       <Hero />
+      <NatureSource />
       <Services />
       <Philosophy />
       <Infographics />
