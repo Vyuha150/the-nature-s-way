@@ -108,7 +108,7 @@ export const NatureSource = () => {
               className="h-full w-full object-cover"
             >
               <source src={HERO_VIDEO} type="video/mp4" />
-              <source src={HERO_FALLBACK} type="video/mp4" />
+              
             </video>
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
