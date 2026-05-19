@@ -169,7 +169,7 @@ export const NatureSource = () => {
           </div>
         </div>
 
-        </div>
+
 
         {/* Products side-by-side */}
         <div className="mt-20">
