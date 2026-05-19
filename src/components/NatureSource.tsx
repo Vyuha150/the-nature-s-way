@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Leaf, Droplets, Sun, Sprout } from "lucide-react";
+import { Wheat, Nut, Leaf, Soup, Cookie, CupSoda, Sprout } from "lucide-react";
 import turmeric from "@/assets/prod-turmeric.jpg";
 import dates from "@/assets/prod-dates.jpg";
 import seeds from "@/assets/prod-seeds.jpg";
