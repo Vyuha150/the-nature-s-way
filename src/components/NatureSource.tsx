@@ -6,12 +6,9 @@ import seeds from "@/assets/prod-seeds.jpg";
 import moringa from "@/assets/prod-moringa.jpg";
 import flour from "@/assets/story-flour.jpg";
 import grains from "@/assets/hero-grains.jpg";
+import heroVideoAsset from "@/assets/nature-hero.mp4.asset.json";
 
-// Free, hot-linkable nature clips (Google sample bucket + Mixkit CDN)
-const HERO_VIDEO =
-  "https://cdn.coverr.co/videos/coverr-a-farmer-walking-through-his-field-3633/1080p.mp4";
-const HERO_FALLBACK =
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4";
+const HERO_VIDEO = heroVideoAsset.url;
 
 const products = [
   {
@@ -111,7 +108,7 @@ export const NatureSource = () => {
               className="h-full w-full object-cover"
             >
               <source src={HERO_VIDEO} type="video/mp4" />
-              <source src={HERO_FALLBACK} type="video/mp4" />
+              
             </video>
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
