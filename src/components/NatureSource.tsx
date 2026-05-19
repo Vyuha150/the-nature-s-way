@@ -92,15 +92,15 @@ export const NatureSource = () => {
           </p>
         </div>
 
-        {/* Hero video */}
+        {/* Hero video + categories — merged block */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 1 }}
-          className="relative mt-16 overflow-hidden rounded-sm shadow-soft"
+          className="relative mt-16 overflow-hidden rounded-sm border border-linen/10 shadow-soft"
         >
-          <div className="aspect-video w-full bg-ink">
+          <div className="relative aspect-video w-full bg-ink">
             <video
               autoPlay
               muted
@@ -113,61 +113,63 @@ export const NatureSource = () => {
               <source src={HERO_VIDEO} type="video/mp4" />
               <source src={HERO_FALLBACK} type="video/mp4" />
             </video>
-          </div>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-honey">
-              — Solapur, Maharashtra · Pre-monsoon harvest
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-8 md:p-12">
+              <div className="text-[10px] uppercase tracking-[0.3em] text-honey">
+                — Solapur, Maharashtra · Pre-monsoon harvest
+              </div>
+              <div className="mt-2 font-display text-2xl text-linen md:text-3xl">
+                From <em className="italic">sown</em> to <em className="italic">sealed</em>,
+                in under 48 hours.
+              </div>
             </div>
-            <div className="mt-2 font-display text-2xl text-linen md:text-3xl">
-              From <em className="italic">sown</em> to <em className="italic">sealed</em>,
-              in under 48 hours.
+          </div>
+
+          {/* Categories attached to the bottom of the video */}
+          <div className="border-t border-linen/10 bg-ink/95 p-6 md:p-10">
+            <div className="mb-6 flex items-end justify-between gap-4">
+              <div>
+                <span className="text-[10px] uppercase tracking-[0.4em] text-honey">
+                  — Browse By Category
+                </span>
+                <h3 className="mt-2 font-display text-xl font-light md:text-2xl">
+                  Seven shelves, <em className="italic text-honey">one pantry.</em>
+                </h3>
+              </div>
+              <a
+                href="/range"
+                className="hidden text-[10px] uppercase tracking-[0.3em] text-linen/70 transition-colors hover:text-honey md:inline"
+              >
+                All categories →
+              </a>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+              {categories.map((g, i) => (
+                <motion.a
+                  key={g.l}
+                  href="/range"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="group flex flex-col items-center gap-2 rounded-sm border border-linen/10 bg-linen/[0.02] p-4 text-center transition-all hover:border-honey/50 hover:bg-honey/5"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-honey/40 text-honey transition-all group-hover:bg-honey group-hover:text-ink">
+                    <g.i size={18} strokeWidth={1.4} />
+                  </div>
+                  <div>
+                    <div className="font-display text-xl font-light text-honey">{g.n}</div>
+                    <div className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-linen/70">
+                      {g.l}
+                    </div>
+                  </div>
+                </motion.a>
+              ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Category infographics */}
-        <div className="mt-16 border-y border-linen/10 py-10">
-          <div className="mb-8 flex items-end justify-between gap-4">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.4em] text-honey">
-                — Browse By Category
-              </span>
-              <h3 className="mt-3 font-display text-2xl font-light md:text-3xl">
-                Seven shelves, <em className="italic text-honey">one pantry.</em>
-              </h3>
-            </div>
-            <a
-              href="/range"
-              className="hidden text-[10px] uppercase tracking-[0.3em] text-linen/70 transition-colors hover:text-honey md:inline"
-            >
-              All categories →
-            </a>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-            {categories.map((g, i) => (
-              <motion.a
-                key={g.l}
-                href="/range"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="group flex flex-col items-center gap-3 rounded-sm border border-linen/10 bg-linen/[0.02] p-5 text-center transition-all hover:border-honey/50 hover:bg-honey/5"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-honey/40 text-honey transition-all group-hover:bg-honey group-hover:text-ink">
-                  <g.i size={20} strokeWidth={1.4} />
-                </div>
-                <div>
-                  <div className="font-display text-2xl font-light text-honey">{g.n}</div>
-                  <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-linen/70">
-                    {g.l}
-                  </div>
-                </div>
-              </motion.a>
-            ))}
-          </div>
-        </div>
+
 
 
 
