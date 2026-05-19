@@ -126,28 +126,49 @@ export const NatureSource = () => {
           </div>
         </motion.div>
 
-        {/* Infographics strip */}
-        <div className="mt-16 grid gap-6 border-y border-linen/10 py-10 sm:grid-cols-2 lg:grid-cols-4">
-          {infographics.map((g, i) => (
-            <motion.div
-              key={g.l}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="flex items-center gap-4"
+        {/* Category infographics */}
+        <div className="mt-16 border-y border-linen/10 py-10">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.4em] text-honey">
+                — Browse By Category
+              </span>
+              <h3 className="mt-3 font-display text-2xl font-light md:text-3xl">
+                Seven shelves, <em className="italic text-honey">one pantry.</em>
+              </h3>
+            </div>
+            <a
+              href="/range"
+              className="hidden text-[10px] uppercase tracking-[0.3em] text-linen/70 transition-colors hover:text-honey md:inline"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-honey/40 text-honey">
-                <g.i size={20} strokeWidth={1.4} />
-              </div>
-              <div>
-                <div className="font-display text-3xl font-light text-honey">{g.n}</div>
-                <div className="text-[10px] uppercase tracking-[0.25em] text-linen/60">
-                  {g.l}
+              All categories →
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
+            {categories.map((g, i) => (
+              <motion.a
+                key={g.l}
+                href="/range"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="group flex flex-col items-center gap-3 rounded-sm border border-linen/10 bg-linen/[0.02] p-5 text-center transition-all hover:border-honey/50 hover:bg-honey/5"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border border-honey/40 text-honey transition-all group-hover:bg-honey group-hover:text-ink">
+                  <g.i size={20} strokeWidth={1.4} />
                 </div>
-              </div>
-            </motion.div>
-          ))}
+                <div>
+                  <div className="font-display text-2xl font-light text-honey">{g.n}</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-linen/70">
+                    {g.l}
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+
         </div>
 
         {/* Products side-by-side */}
