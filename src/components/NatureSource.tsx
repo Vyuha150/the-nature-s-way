@@ -60,11 +60,14 @@ const products = [
   },
 ];
 
-const infographics = [
-  { i: Sprout, n: "120", l: "Partner farms" },
-  { i: Sun, n: "14d", l: "Sun-cure window" },
-  { i: Droplets, n: "0", l: "Synthetic inputs" },
-  { i: Leaf, n: "48h", l: "Field → pouch" },
+const categories = [
+  { i: Wheat, n: "12", l: "Grains & Flours" },
+  { i: Nut, n: "9", l: "Seeds & Nuts" },
+  { i: Leaf, n: "14", l: "Herbal Powders" },
+  { i: Soup, n: "8", l: "Ready Mixes" },
+  { i: Cookie, n: "10", l: "Snacks & Bars" },
+  { i: CupSoda, n: "7", l: "Beverages" },
+  { i: Sprout, n: "11", l: "Pastes & Butters" },
 ];
 
 export const NatureSource = () => {
