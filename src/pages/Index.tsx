@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { NatureSource } from "@/components/NatureSource";
 import { Services } from "@/components/Services";
 import { Philosophy } from "@/components/Philosophy";
 import { Infographics } from "@/components/Infographics";
@@ -31,6 +32,7 @@ const Index = () => {
     <main className="min-h-screen bg-linen">
       <Nav />
       <Hero />
+      <NatureSource />
       <Services />
       <Philosophy />
       <Infographics />
