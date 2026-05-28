@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Menu, X, LayoutDashboard } from "lucide-react";
+import { Menu, X, LayoutDashboard, ShoppingBag } from "lucide-react";
 import { Logo } from "./Logo";
+import { useCart } from "@/shop/context/CartContext";
+import { getUserSession } from "@/shop/auth";
 
 const links = [
   { label: "Home", to: "/" },
@@ -11,6 +13,7 @@ const links = [
   { label: "Range", to: "/range" },
   { label: "Trace", to: "/trace" },
   { label: "Contact", to: "/contact" },
+  { label: "Shop", to: "/shop" },
 ];
 
 export const Nav = () => {
@@ -20,8 +23,13 @@ export const Nav = () => {
   const bg = useTransform(scrollY, [0, 120], ["hsl(33 100% 14% / 0)", "hsl(33 100% 14% / 0.92)"]);
   const blur = useTransform(scrollY, [0, 120], ["blur(0px)", "blur(12px)"]);
   const [open, setOpen] = useState(false);
+  const [session, setSession] = useState(() => getUserSession());
+  const { items } = useCart();
 
-  useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    setOpen(false);
+    setSession(getUserSession());
+  }, [location.pathname]);
 
   return (
     <motion.header
@@ -66,10 +74,38 @@ export const Nav = () => {
             <LayoutDashboard size={16} />
           </Link>
           <Link
-            to="/range"
+            to="/cart"
+            aria-label="Cart"
+            title="Cart"
+            className="relative grid h-9 w-9 place-items-center rounded-sm border border-honey/60 text-honey transition-all hover:bg-honey hover:text-ink"
+          >
+            <ShoppingBag size={16} />
+            {items.length > 0 && (
+              <span className="absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full bg-honey text-[10px] text-ink">
+                {items.length}
+              </span>
+            )}
+          </Link>
+          {session ? (
+            <Link
+              to="/orders"
+              className="rounded-sm border border-honey/60 px-5 py-2 text-xs uppercase tracking-[0.2em] text-honey transition-all hover:bg-honey hover:text-ink"
+            >
+              Orders
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-sm border border-honey/60 px-5 py-2 text-xs uppercase tracking-[0.2em] text-honey transition-all hover:bg-honey hover:text-ink"
+            >
+              Sign in
+            </Link>
+          )}
+          <Link
+            to="/shop"
             className="rounded-sm border border-honey/60 px-5 py-2 text-xs uppercase tracking-[0.2em] text-honey transition-all hover:bg-honey hover:text-ink"
           >
-            Shop Range
+            Shop
           </Link>
         </div>
 
@@ -104,6 +140,27 @@ export const Nav = () => {
                 {l.label}
               </NavLink>
             ))}
+            <NavLink
+              to="/cart"
+              className="border-b border-linen/10 py-4 text-sm uppercase tracking-[0.25em] text-linen/85"
+            >
+              Cart
+            </NavLink>
+            {session ? (
+              <NavLink
+                to="/orders"
+                className="border-b border-linen/10 py-4 text-sm uppercase tracking-[0.25em] text-linen/85"
+              >
+                Orders
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                className="border-b border-linen/10 py-4 text-sm uppercase tracking-[0.25em] text-linen/85"
+              >
+                Sign in
+              </NavLink>
+            )}
           </div>
         </motion.div>
       )}

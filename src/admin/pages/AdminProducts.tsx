@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,25 +10,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
-type Product = {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  status: "Active" | "Draft" | "Archived";
-  description?: string;
-};
-
-const seed: Product[] = [
-  { id: "p1", name: "Cold-Pressed Turmeric", category: "Spices", price: 18, stock: 124, status: "Active" },
-  { id: "p2", name: "Stone-Ground Moringa", category: "Herbs", price: 22, stock: 98, status: "Active" },
-  { id: "p3", name: "Sun-Dried Dates", category: "Sweeteners", price: 14, stock: 56, status: "Active" },
-  { id: "p4", name: "Heritage Whole Flour", category: "Grains", price: 12, stock: 210, status: "Active" },
-  { id: "p5", name: "Raw Pumpkin Seeds", category: "Seeds", price: 16, stock: 142, status: "Active" },
-  { id: "p6", name: "Wild Forest Honey", category: "Sweeteners", price: 28, stock: 0, status: "Draft" },
-];
+import { adminApi } from "../api/admin";
+import type { Product } from "../api/types";
 
 const statusColor: Record<Product["status"], string> = {
   Active: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -35,18 +19,49 @@ const statusColor: Record<Product["status"], string> = {
   Archived: "bg-slate-100 text-slate-600 border-slate-200",
 };
 
-const empty: Omit<Product, "id"> = { name: "", category: "", price: 0, stock: 0, status: "Draft", description: "" };
+type ProductDraft = Omit<Product, "_id" | "createdAt" | "updatedAt">;
+
+const empty: ProductDraft = { name: "", category: "", price: 0, stock: 0, status: "Draft", description: "" };
 
 export default function AdminProducts() {
-  const [items, setItems] = useState<Product[]>(seed);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<Product | null>(null);
-  const [draft, setDraft] = useState<Omit<Product, "id">>(empty);
+  const [draft, setDraft] = useState<ProductDraft>(empty);
   const [open, setOpen] = useState(false);
 
-  const filtered = items.filter((p) =>
-    [p.name, p.category, p.status].join(" ").toLowerCase().includes(query.toLowerCase()),
-  );
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["admin", "products", { query }],
+    queryFn: () => adminApi.listProducts({ search: query, limit: 100 }),
+  });
+
+  const items = data?.items ?? [];
+
+  const createMutation = useMutation({
+    mutationFn: adminApi.createProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
+      toast({ title: "Product created" });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<ProductDraft> }) => adminApi.updateProduct(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
+      toast({ title: "Product updated" });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: adminApi.deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
+      toast({ title: "Product deleted" });
+    },
+  });
+
+  const filtered = items;
 
   const openCreate = () => {
     setEditing(null);
@@ -60,24 +75,31 @@ export default function AdminProducts() {
     setOpen(true);
   };
 
-  const save = () => {
+  const save = async () => {
     if (!draft.name.trim()) {
       toast({ title: "Name required", variant: "destructive" });
       return;
     }
-    if (editing) {
-      setItems((arr) => arr.map((p) => (p.id === editing.id ? { ...editing, ...draft } : p)));
-      toast({ title: "Product updated" });
-    } else {
-      setItems((arr) => [{ id: `p${Date.now()}`, ...draft }, ...arr]);
-      toast({ title: "Product created" });
+    try {
+      if (editing) {
+        await updateMutation.mutateAsync({ id: editing._id, data: draft });
+      } else {
+        await createMutation.mutateAsync(draft);
+      }
+      setOpen(false);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Save failed";
+      toast({ title: "Save failed", description: message, variant: "destructive" });
     }
-    setOpen(false);
   };
 
-  const remove = (id: string) => {
-    setItems((arr) => arr.filter((p) => p.id !== id));
-    toast({ title: "Product deleted" });
+  const remove = async (id: string) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Delete failed";
+      toast({ title: "Delete failed", description: message, variant: "destructive" });
+    }
   };
 
   return (
@@ -114,7 +136,7 @@ export default function AdminProducts() {
             </TableHeader>
             <TableBody>
               {filtered.map((p) => (
-                <TableRow key={p.id}>
+                  <TableRow key={p._id}>
                   <TableCell className="font-medium">{p.name}</TableCell>
                   <TableCell className="text-muted-foreground">{p.category}</TableCell>
                   <TableCell className="text-right">${p.price.toFixed(2)}</TableCell>
@@ -122,7 +144,7 @@ export default function AdminProducts() {
                   <TableCell><Badge variant="outline" className={statusColor[p.status]}>{p.status}</Badge></TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEdit(p)}><Pencil className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(p.id)}><Trash2 className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(p._id)}><Trash2 className="h-4 w-4" /></Button>
                   </TableCell>
                 </TableRow>
               ))}

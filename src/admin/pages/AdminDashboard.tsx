@@ -2,12 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useQuery } from "@tanstack/react-query";
 import { KpiCard } from "../components/KpiCard";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, Cell, PieChart, Pie, Legend,
 } from "recharts";
-import { kpis, salesByMonth, trafficSources, topProducts, recentOrders } from "../mockData";
+import { adminApi } from "../api/admin";
+import type { AnalyticsDashboard } from "../api/types";
 
 const PIE_COLORS = ["hsl(221 83% 53%)", "hsl(262 83% 58%)", "hsl(160 70% 40%)", "hsl(38 92% 50%)", "hsl(0 72% 51%)"];
 
@@ -19,6 +21,20 @@ const statusVariant: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
+  const { data } = useQuery({ queryKey: ["admin", "dashboard"], queryFn: adminApi.getAnalyticsDashboard });
+  const dashboard: AnalyticsDashboard = data ?? {
+    kpis: {
+      revenue: { value: 0, delta: 0 },
+      orders: { value: 0, delta: 0 },
+      customers: { value: 0, delta: 0 },
+      conversion: { value: 0, delta: 0 },
+    },
+    trafficSources: [],
+    recentOrders: [],
+    salesByMonth: [],
+    topProducts: [],
+  };
+
   return (
     <div className="space-y-6 max-w-[1400px]">
       <div className="flex items-end justify-between flex-wrap gap-3">
@@ -33,10 +49,10 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard label="Revenue" value={`$${kpis.revenue.value.toLocaleString()}`} delta={kpis.revenue.delta} series={kpis.revenue.series} />
-        <KpiCard label="Orders" value={kpis.orders.value.toLocaleString()} delta={kpis.orders.delta} series={kpis.orders.series} color="hsl(160 70% 40%)" />
-        <KpiCard label="Customers" value={kpis.customers.value.toLocaleString()} delta={kpis.customers.delta} series={kpis.customers.series} color="hsl(262 83% 58%)" />
-        <KpiCard label="Conversion" value={`${kpis.conversion.value}%`} delta={kpis.conversion.delta} series={kpis.conversion.series} color="hsl(38 92% 50%)" />
+        <KpiCard label="Revenue" value={`$${dashboard.kpis.revenue.value.toLocaleString()}`} delta={dashboard.kpis.revenue.delta} series={dashboard.salesByMonth.map((m) => m.sales)} />
+        <KpiCard label="Orders" value={dashboard.kpis.orders.value.toLocaleString()} delta={dashboard.kpis.orders.delta} series={dashboard.salesByMonth.map((m) => m.visitors)} color="hsl(160 70% 40%)" />
+        <KpiCard label="Customers" value={dashboard.kpis.customers.value.toLocaleString()} delta={dashboard.kpis.customers.delta} series={dashboard.salesByMonth.map((m) => m.visitors)} color="hsl(262 83% 58%)" />
+        <KpiCard label="Conversion" value={`${dashboard.kpis.conversion.value}%`} delta={dashboard.kpis.conversion.delta} series={dashboard.salesByMonth.map((m) => m.sales)} color="hsl(38 92% 50%)" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -47,7 +63,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+              <AreaChart data={dashboard.salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
                 <defs>
                   <linearGradient id="sales" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="hsl(221 83% 53%)" stopOpacity={0.35} />
@@ -77,8 +93,8 @@ export default function AdminDashboard() {
           <CardContent className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={trafficSources} dataKey="value" nameKey="name" innerRadius={50} outerRadius={85} paddingAngle={2}>
-                  {trafficSources.map((_, i) => <Cell key={i} fill={PIE_COLORS[i]} />)}
+                <Pie data={dashboard.trafficSources} dataKey="value" nameKey="name" innerRadius={50} outerRadius={85} paddingAngle={2}>
+                  {dashboard.trafficSources.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
                 </Pie>
                 <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
@@ -109,9 +125,9 @@ export default function AdminDashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {recentOrders.map((o) => (
+                {dashboard.recentOrders.map((o) => (
                   <TableRow key={o.id}>
-                    <TableCell className="font-medium">{o.id}</TableCell>
+                    <TableCell className="font-medium">{o.orderNumber}</TableCell>
                     <TableCell>{o.customer}</TableCell>
                     <TableCell className="text-muted-foreground">{o.date}</TableCell>
                     <TableCell>
@@ -132,7 +148,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={topProducts} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
+              <BarChart data={dashboard.topProducts} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={false} />
                 <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={11} width={110} tickLine={false} axisLine={false} />

@@ -7,11 +7,22 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
 } from "recharts";
-import { salesByMonth, cohortRetention, categoryPerformance, topProducts, topCustomers } from "../mockData";
+import { useQuery } from "@tanstack/react-query";
+import { adminApi } from "../api/admin";
+import type { AnalyticsOverview } from "../api/types";
 
 const tooltipStyle = { background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 };
 
 export default function AdminAnalytics() {
+  const { data } = useQuery({ queryKey: ["admin", "analytics"], queryFn: () => adminApi.getAnalyticsOverview() });
+  const overview: AnalyticsOverview = data ?? {
+    salesByMonth: [],
+    cohortRetention: [],
+    categoryPerformance: [],
+    topProducts: [],
+    topCustomers: [],
+  };
+
   return (
     <div className="space-y-6 max-w-[1400px]">
       <div className="flex items-end justify-between flex-wrap gap-3">
@@ -40,7 +51,7 @@ export default function AdminAnalytics() {
             </CardHeader>
             <CardContent className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                <LineChart data={overview.salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                   <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
@@ -59,7 +70,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={categoryPerformance} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                  <BarChart data={overview.categoryPerformance} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                     <XAxis dataKey="category" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
@@ -77,7 +88,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                  <AreaChart data={overview.salesByMonth} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
                     <defs>
                       <linearGradient id="vis" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="hsl(262 83% 58%)" stopOpacity={0.35} />
@@ -104,7 +115,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={topProducts} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
+                  <BarChart data={overview.topProducts} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={false} />
                     <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={11} tickLine={false} axisLine={false} />
                     <YAxis type="category" dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={11} width={130} tickLine={false} axisLine={false} />
@@ -122,7 +133,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={topProducts}>
+                  <RadarChart data={overview.topProducts}>
                     <PolarGrid stroke="hsl(var(--border))" />
                     <PolarAngleAxis dataKey="name" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
                     <PolarRadiusAxis tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
@@ -149,7 +160,7 @@ export default function AdminAnalytics() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {topProducts.map((p) => (
+                  {overview.topProducts.map((p) => (
                     <TableRow key={p.id}>
                       <TableCell className="font-medium">{p.name}</TableCell>
                       <TableCell className="text-right">{p.sales}</TableCell>
@@ -172,7 +183,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={cohortRetention} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
+                  <LineChart data={overview.cohortRetention} margin={{ top: 10, right: 10, bottom: 0, left: -10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                     <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
@@ -189,7 +200,7 @@ export default function AdminAnalytics() {
               </CardHeader>
               <CardContent className="h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={topCustomers} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
+                  <BarChart data={overview.topCustomers} layout="vertical" margin={{ top: 0, right: 10, bottom: 0, left: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={false} />
                     <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={11} tickLine={false} axisLine={false} />
                     <YAxis type="category" dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={11} width={110} tickLine={false} axisLine={false} />
@@ -216,7 +227,7 @@ export default function AdminAnalytics() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {topCustomers.map((c) => (
+                  {overview.topCustomers.map((c) => (
                     <TableRow key={c.id}>
                       <TableCell className="font-medium">{c.name}</TableCell>
                       <TableCell className="text-right">{c.orders}</TableCell>

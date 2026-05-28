@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,18 +9,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { adminApi } from "../api/admin";
+import type { Customer } from "../api/types";
 
 type Tier = "VIP" | "Returning" | "New";
-type Customer = { id: string; name: string; email: string; orders: number; spent: number; tier: Tier; joined: string };
-
-const seed: Customer[] = [
-  { id: "u1", name: "Aarav Mehta", email: "aarav@example.com", orders: 18, spent: 2240, tier: "VIP", joined: "2024-03-12" },
-  { id: "u2", name: "Priya Shah", email: "priya@example.com", orders: 14, spent: 1890, tier: "VIP", joined: "2024-05-04" },
-  { id: "u3", name: "Liam Carter", email: "liam@example.com", orders: 12, spent: 1620, tier: "Returning", joined: "2024-08-22" },
-  { id: "u4", name: "Noor Hassan", email: "noor@example.com", orders: 11, spent: 1490, tier: "Returning", joined: "2024-11-09" },
-  { id: "u5", name: "Sofia Rossi", email: "sofia@example.com", orders: 9, spent: 1310, tier: "Returning", joined: "2025-01-18" },
-  { id: "u6", name: "Kenji Watanabe", email: "kenji@example.com", orders: 1, spent: 96, tier: "New", joined: "2026-04-30" },
-];
 
 const tierColor: Record<Tier, string> = {
   VIP: "bg-violet-50 text-violet-700 border-violet-200",
@@ -27,36 +20,84 @@ const tierColor: Record<Tier, string> = {
   New: "bg-emerald-50 text-emerald-700 border-emerald-200",
 };
 
-const empty: Omit<Customer, "id" | "orders" | "spent" | "joined"> = { name: "", email: "", tier: "New" };
+type CustomerDraft = { name: string; email: string; tier: Tier; password?: string };
+const empty: CustomerDraft = { name: "", email: "", tier: "New", password: "" };
 
 export default function AdminCustomers() {
-  const [items, setItems] = useState<Customer[]>(seed);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<Customer | null>(null);
   const [draft, setDraft] = useState(empty);
   const [open, setOpen] = useState(false);
 
-  const filtered = items.filter((c) => [c.name, c.email, c.tier].join(" ").toLowerCase().includes(query.toLowerCase()));
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["admin", "customers", { query }],
+    queryFn: () => adminApi.listCustomers({ search: query || undefined, limit: 100 }),
+  });
+
+  const items = data?.items ?? [];
+
+  const createMutation = useMutation({
+    mutationFn: adminApi.createCustomer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "customers"] });
+      toast({ title: "Customer added" });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<CustomerDraft> }) => adminApi.updateCustomer(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "customers"] });
+      toast({ title: "Customer updated" });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: adminApi.deleteCustomer,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "customers"] });
+      toast({ title: "Customer deleted" });
+    },
+  });
+
+  const filtered = items;
 
   const openCreate = () => { setEditing(null); setDraft(empty); setOpen(true); };
-  const openEdit = (c: Customer) => { setEditing(c); setDraft({ name: c.name, email: c.email, tier: c.tier }); setOpen(true); };
+  const openEdit = (c: Customer) => { setEditing(c); setDraft({ name: c.name, email: c.email, tier: c.tier, password: "" }); setOpen(true); };
 
-  const save = () => {
+  const save = async () => {
     if (!draft.name.trim() || !draft.email.trim()) {
       toast({ title: "Name and email required", variant: "destructive" });
       return;
     }
-    if (editing) {
-      setItems((arr) => arr.map((c) => (c.id === editing.id ? { ...c, ...draft } : c)));
-      toast({ title: "Customer updated" });
-    } else {
-      setItems((arr) => [{ id: `u${Date.now()}`, orders: 0, spent: 0, joined: new Date().toISOString().slice(0, 10), ...draft }, ...arr]);
-      toast({ title: "Customer added" });
+    try {
+      if (editing) {
+        const payload = { ...draft };
+        if (!payload.password) delete payload.password;
+        await updateMutation.mutateAsync({ id: editing._id, data: payload });
+      } else {
+        if (!draft.password) {
+          toast({ title: "Password required", variant: "destructive" });
+          return;
+        }
+        await createMutation.mutateAsync({ name: draft.name, email: draft.email, password: draft.password, tier: draft.tier });
+      }
+      setOpen(false);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Save failed";
+      toast({ title: "Save failed", description: message, variant: "destructive" });
     }
-    setOpen(false);
   };
 
-  const remove = (id: string) => { setItems((arr) => arr.filter((c) => c.id !== id)); toast({ title: "Customer deleted" }); };
+  const remove = async (id: string) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Delete failed";
+      toast({ title: "Delete failed", description: message, variant: "destructive" });
+    }
+  };
 
   return (
     <div className="space-y-6 max-w-[1400px]">
@@ -93,7 +134,7 @@ export default function AdminCustomers() {
             </TableHeader>
             <TableBody>
               {filtered.map((c) => (
-                <TableRow key={c.id}>
+                <TableRow key={c._id}>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <div className="h-7 w-7 rounded-full bg-accent/10 text-accent grid place-items-center text-xs font-semibold">
@@ -104,12 +145,12 @@ export default function AdminCustomers() {
                   </TableCell>
                   <TableCell className="text-muted-foreground">{c.email}</TableCell>
                   <TableCell><Badge variant="outline" className={tierColor[c.tier]}>{c.tier}</Badge></TableCell>
-                  <TableCell className="text-right">{c.orders}</TableCell>
-                  <TableCell className="text-right">${c.spent.toLocaleString()}</TableCell>
-                  <TableCell className="text-muted-foreground">{c.joined}</TableCell>
+                  <TableCell className="text-right">{c.ordersCount ?? 0}</TableCell>
+                  <TableCell className="text-right">${(c.spent ?? 0).toLocaleString()}</TableCell>
+                  <TableCell className="text-muted-foreground">{new Date(c.createdAt).toISOString().slice(0, 10)}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEdit(c)}><Pencil className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(c.id)}><Trash2 className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(c._id)}><Trash2 className="h-4 w-4" /></Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -127,6 +168,7 @@ export default function AdminCustomers() {
           <div className="grid gap-3 py-2">
             <div className="space-y-1.5"><Label>Name</Label><Input value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} /></div>
             <div className="space-y-1.5"><Label>Email</Label><Input type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} /></div>
+            <div className="space-y-1.5"><Label>Password</Label><Input type="password" value={draft.password ?? ""} placeholder={editing ? "Leave blank to keep" : "Set initial password"} onChange={(e) => setDraft({ ...draft, password: e.target.value })} /></div>
             <div className="space-y-1.5"><Label>Tier</Label>
               <select className="h-10 rounded-md border border-input bg-background px-3 text-sm w-full"
                 value={draft.tier} onChange={(e) => setDraft({ ...draft, tier: e.target.value as Tier })}>

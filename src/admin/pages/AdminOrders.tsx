@@ -1,26 +1,17 @@
 import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Search, Eye, Trash2 } from "lucide-react";
+import { Search, Eye, Trash2, RefreshCcw } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { adminApi } from "../api/admin";
+import type { Order, OrderStatus } from "../api/types";
 
-type Status = "Pending" | "Paid" | "Shipped" | "Delivered" | "Refunded";
-type Order = { id: string; customer: string; email: string; items: number; total: number; status: Status; date: string };
-
-const seed: Order[] = [
-  { id: "#10284", customer: "Aarav Mehta", email: "aarav@example.com", items: 3, total: 124.5, status: "Paid", date: "2026-05-13" },
-  { id: "#10283", customer: "Priya Shah", email: "priya@example.com", items: 2, total: 86.0, status: "Shipped", date: "2026-05-13" },
-  { id: "#10282", customer: "Liam Carter", email: "liam@example.com", items: 5, total: 212.3, status: "Pending", date: "2026-05-12" },
-  { id: "#10281", customer: "Noor Hassan", email: "noor@example.com", items: 1, total: 54.9, status: "Paid", date: "2026-05-12" },
-  { id: "#10280", customer: "Sofia Rossi", email: "sofia@example.com", items: 4, total: 178.4, status: "Refunded", date: "2026-05-11" },
-  { id: "#10279", customer: "Kenji Watanabe", email: "kenji@example.com", items: 2, total: 96.2, status: "Delivered", date: "2026-05-11" },
-];
-
-const statusColor: Record<Status, string> = {
+const statusColor: Record<OrderStatus, string> = {
   Pending: "bg-amber-50 text-amber-700 border-amber-200",
   Paid: "bg-emerald-50 text-emerald-700 border-emerald-200",
   Shipped: "bg-blue-50 text-blue-700 border-blue-200",
@@ -28,28 +19,72 @@ const statusColor: Record<Status, string> = {
   Refunded: "bg-red-50 text-red-700 border-red-200",
 };
 
-const flow: Status[] = ["Pending", "Paid", "Shipped", "Delivered", "Refunded"];
+const flow: OrderStatus[] = ["Pending", "Paid", "Shipped", "Delivered", "Refunded"];
 
 export default function AdminOrders() {
-  const [items, setItems] = useState<Order[]>(seed);
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Status | "All">("All");
+  const [filter, setFilter] = useState<OrderStatus | "All">("All");
   const [view, setView] = useState<Order | null>(null);
 
-  const filtered = items.filter((o) => {
-    const matches = [o.id, o.customer, o.email].join(" ").toLowerCase().includes(query.toLowerCase());
-    const matchStatus = filter === "All" || o.status === filter;
-    return matches && matchStatus;
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["admin", "orders", { query, filter }],
+    queryFn: () => adminApi.listOrders({ search: query || undefined, status: filter === "All" ? undefined : filter, limit: 100 }),
   });
 
-  const setStatus = (id: string, status: Status) => {
-    setItems((arr) => arr.map((o) => (o.id === id ? { ...o, status } : o)));
-    toast({ title: `Order ${id} → ${status}` });
+  const items = data?.items ?? [];
+
+  const statusMutation = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: OrderStatus }) => adminApi.updateOrderStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: adminApi.deleteOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
+      toast({ title: "Order deleted" });
+    },
+  });
+
+  const refreshMutation = useMutation({
+    mutationFn: adminApi.refreshOrderPayment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
+      toast({ title: "Payment status refreshed" });
+    },
+  });
+
+  const filtered = items;
+
+  const setStatus = async (id: string, status: OrderStatus) => {
+    try {
+      await statusMutation.mutateAsync({ id, status });
+      toast({ title: `Order ${id} → ${status}` });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Update failed";
+      toast({ title: "Update failed", description: message, variant: "destructive" });
+    }
   };
 
-  const remove = (id: string) => {
-    setItems((arr) => arr.filter((o) => o.id !== id));
-    toast({ title: "Order deleted" });
+  const remove = async (id: string) => {
+    try {
+      await deleteMutation.mutateAsync(id);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Delete failed";
+      toast({ title: "Delete failed", description: message, variant: "destructive" });
+    }
+  };
+
+  const refreshPayment = async (id: string) => {
+    try {
+      await refreshMutation.mutateAsync(id);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Refresh failed";
+      toast({ title: "Refresh failed", description: message, variant: "destructive" });
+    }
   };
 
   return (
@@ -89,36 +124,39 @@ export default function AdminOrders() {
                 <TableHead className="text-right">Items</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Payment</TableHead>
                 <TableHead className="text-right w-24">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((o) => (
-                <TableRow key={o.id}>
-                  <TableCell className="font-medium">{o.id}</TableCell>
+                  <TableRow key={o._id}>
+                    <TableCell className="font-medium">{o.orderNumber}</TableCell>
                   <TableCell>
                     <div className="flex flex-col leading-tight">
-                      <span>{o.customer}</span>
-                      <span className="text-xs text-muted-foreground">{o.email}</span>
+                        <span>{o.customerName}</span>
+                        <span className="text-xs text-muted-foreground">{o.customerEmail}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground">{o.date}</TableCell>
-                  <TableCell className="text-right">{o.items}</TableCell>
+                    <TableCell className="text-muted-foreground">{new Date(o.createdAt).toISOString().slice(0, 10)}</TableCell>
+                    <TableCell className="text-right">{o.items.length}</TableCell>
                   <TableCell className="text-right">${o.total.toFixed(2)}</TableCell>
-                  <TableCell>
-                    <select value={o.status} onChange={(e) => setStatus(o.id, e.target.value as Status)}
+                    <TableCell>
+                    <select value={o.status} onChange={(e) => setStatus(o._id, e.target.value as OrderStatus)}
                       className={`text-xs rounded border px-2 py-1 ${statusColor[o.status]}`}>
                       {flow.map((s) => <option key={s} value={s}>{s}</option>)}
                     </select>
                   </TableCell>
+                  <TableCell className="text-xs text-muted-foreground">{o.paymentStatus ?? "created"}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setView(o)}><Eye className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(o.id)}><Trash2 className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => refreshPayment(o._id)}><RefreshCcw className="h-4 w-4" /></Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => remove(o._id)}><Trash2 className="h-4 w-4" /></Button>
                   </TableCell>
                 </TableRow>
               ))}
               {filtered.length === 0 && (
-                <TableRow><TableCell colSpan={7} className="text-center text-muted-foreground py-10">No orders found.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-10">No orders found.</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
@@ -127,14 +165,16 @@ export default function AdminOrders() {
 
       <Dialog open={!!view} onOpenChange={(o) => !o && setView(null)}>
         <DialogContent className="sm:max-w-md">
-          <DialogHeader><DialogTitle>Order {view?.id}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Order {view?.orderNumber}</DialogTitle></DialogHeader>
           {view && (
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Customer</span><span className="font-medium">{view.customer}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span>{view.email}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Date</span><span>{view.date}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Items</span><span>{view.items}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Customer</span><span className="font-medium">{view.customerName}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Email</span><span>{view.customerEmail}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Date</span><span>{new Date(view.createdAt).toISOString().slice(0, 10)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Items</span><span>{view.items.length}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Status</span><Badge variant="outline" className={statusColor[view.status]}>{view.status}</Badge></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Payment</span><span>{view.paymentStatus ?? "created"}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Payment updated</span><span>{view.paymentUpdatedAt ? new Date(view.paymentUpdatedAt).toISOString().slice(0, 10) : "-"}</span></div>
               <div className="flex justify-between border-t pt-3 font-medium"><span>Total</span><span>${view.total.toFixed(2)}</span></div>
             </div>
           )}

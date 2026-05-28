@@ -14,19 +14,19 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      const session = adminLogin(email, password);
+    try {
+      await adminLogin(email, password);
+      toast({ title: "Welcome back", description: "Signed in as admin." });
+      navigate("/admin");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Login failed";
+      toast({ title: "Invalid credentials", description: message, variant: "destructive" });
+    } finally {
       setLoading(false);
-      if (session) {
-        toast({ title: "Welcome back", description: "Signed in as admin." });
-        navigate("/admin");
-      } else {
-        toast({ title: "Invalid credentials", description: "Check email and password.", variant: "destructive" });
-      }
-    }, 400);
+    }
   };
 
   return (
@@ -62,7 +62,7 @@ export default function AdminLogin() {
                 {loading ? "Signing in…" : "Sign in"}
               </Button>
               <p className="text-xs text-muted-foreground text-center">
-                Demo credentials prefilled. UI prototype — no real backend.
+                Use admin credentials configured in backend.
               </p>
             </form>
           </CardContent>

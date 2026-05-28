@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
@@ -86,7 +87,9 @@ const RangePage = () => {
                   <h3 className="mt-2 font-display text-xl text-umber">{p.t}</h3>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="font-display text-lg text-umber">{p.price}</span>
-                    <span className="text-[10px] uppercase tracking-[0.3em] text-earth/60 transition-colors group-hover:text-honey">Add →</span>
+                    <Link to="/shop" className="text-[10px] uppercase tracking-[0.3em] text-earth/60 transition-colors group-hover:text-honey">
+                      Shop -&gt;
+                    </Link>
                   </div>
                 </div>
               </motion.article>

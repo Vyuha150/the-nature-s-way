@@ -45,8 +45,8 @@ export default function AdminLayout() {
   const session = getAdminSession();
   const { pathname } = useLocation();
 
-  const handleLogout = () => {
-    adminLogout();
+  const handleLogout = async () => {
+    await adminLogout();
     navigate("/admin/login");
   };
 
