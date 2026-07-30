@@ -51,6 +51,16 @@
 
     --shadow-soft: 0 20px 60px -20px hsl(33 100% 14% / 0.25);
     --shadow-honey: 0 10px 40px -10px hsl(38 56% 50% / 0.45);
+    --shadow-cinematic:
+      0 0 0 1px hsl(38 56% 50% / 0.25),
+      0 8px 30px -8px hsl(38 56% 50% / 0.35),
+      0 40px 90px -30px hsl(33 100% 9% / 0.85);
+    --shadow-cinematic-strong:
+      0 0 0 1px hsl(38 56% 60% / 0.35),
+      0 10px 34px -6px hsl(38 56% 50% / 0.55),
+      0 50px 110px -30px hsl(33 100% 9% / 0.9);
+    --gradient-cinematic: radial-gradient(circle at 50% 20%, hsl(38 56% 60% / 0.45) 0%, hsl(38 56% 50% / 0.18) 40%, transparent 70%);
+    --gradient-rim: conic-gradient(from 210deg, hsl(38 56% 60% / 0.55), hsl(30 55% 22% / 0.1) 35%, hsl(38 56% 50% / 0.5) 65%, hsl(33 100% 14% / 0.1) 100%);
 
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -117,6 +127,19 @@
   .bg-gradient-fade { background: var(--gradient-fade); }
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-honey { box-shadow: var(--shadow-honey); }
+  .shadow-cinematic { box-shadow: var(--shadow-cinematic); }
+  .shadow-cinematic-strong { box-shadow: var(--shadow-cinematic-strong); }
+  .bg-gradient-cinematic { background: var(--gradient-cinematic); }
+  .bg-gradient-rim { background: var(--gradient-rim); }
+  .cinematic-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 50% 0%, transparent 40%, hsl(33 100% 9% / 0.55) 100%),
+      linear-gradient(180deg, hsl(38 56% 60% / 0.12) 0%, transparent 35%, hsl(33 100% 9% / 0.7) 100%);
+  }
   .grain-texture {
     background-image: radial-gradient(hsl(var(--umber) / 0.04) 1px, transparent 1px);
     background-size: 4px 4px;

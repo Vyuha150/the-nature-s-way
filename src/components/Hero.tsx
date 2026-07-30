@@ -126,22 +126,29 @@ export const Hero = () => {
 
             <a
               href="#range"
-              className="mt-8 inline-flex items-center gap-3 rounded-full bg-honey px-9 py-3.5 text-xs uppercase tracking-[0.25em] text-ink transition-all hover:shadow-honey"
+              className="group relative mt-8 inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-honey px-9 py-3.5 text-xs uppercase tracking-[0.25em] text-ink shadow-cinematic transition-all duration-500 hover:shadow-cinematic-strong"
             >
-              Explore the Range
-              <ChevronRight size={16} />
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-linen/40 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+              <span className="relative">Explore the Range</span>
+              <ChevronRight size={16} className="relative" />
             </a>
           </motion.div>
 
           {/* Center rotating product */}
           <div className="order-1 lg:order-2">
             <div className="relative mx-auto aspect-square w-full max-w-md">
+              <div className="pointer-events-none absolute -inset-10 bg-gradient-cinematic blur-2xl" />
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 rounded-full border border-dashed border-honey/25"
               />
-              <div className="absolute inset-6 overflow-hidden rounded-full border border-honey/30 shadow-soft">
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                className="pointer-events-none absolute inset-3 rounded-full bg-gradient-rim opacity-70 blur-md"
+              />
+              <div className="cinematic-vignette absolute inset-6 overflow-hidden rounded-full border border-honey/40 shadow-cinematic-strong">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={showcase[idx].name}
@@ -156,36 +163,38 @@ export const Hero = () => {
                     height={800}
                   />
                 </AnimatePresence>
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-                <div className="absolute inset-x-0 bottom-8 text-center font-display text-2xl text-linen">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-honey/10" />
+                <div className="absolute inset-x-0 bottom-8 z-10 text-center font-display text-2xl text-linen drop-shadow-[0_2px_12px_hsl(33_100%_9%/0.9)]">
                   {showcase[idx].name}
                 </div>
               </div>
             </div>
 
+
             <div className="mt-6 flex items-center justify-center gap-4">
               <button
                 onClick={() => go(-1)}
                 aria-label="Previous product"
-                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 text-linen transition-colors hover:border-honey hover:text-honey"
+                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 bg-linen/[0.04] text-linen transition-all duration-300 hover:border-honey/60 hover:text-honey hover:shadow-cinematic"
               >
                 <ChevronLeft size={16} />
               </button>
               <a
                 href="#range"
                 aria-label="See all products"
-                className="grid h-12 w-12 place-items-center rounded-full bg-honey text-ink transition-transform hover:scale-105"
+                className="grid h-12 w-12 place-items-center rounded-full bg-gradient-honey text-ink shadow-cinematic transition-all duration-300 hover:scale-105 hover:shadow-cinematic-strong"
               >
                 <Plus size={18} />
               </a>
               <button
                 onClick={() => go(1)}
                 aria-label="Next product"
-                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 text-linen transition-colors hover:border-honey hover:text-honey"
+                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 bg-linen/[0.04] text-linen transition-all duration-300 hover:border-honey/60 hover:text-honey hover:shadow-cinematic"
               >
                 <ChevronRight size={16} />
               </button>
             </div>
+
           </div>
 
           {/* Right */}
