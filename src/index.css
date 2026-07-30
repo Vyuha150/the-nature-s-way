@@ -127,6 +127,19 @@
   .bg-gradient-fade { background: var(--gradient-fade); }
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-honey { box-shadow: var(--shadow-honey); }
+  .shadow-cinematic { box-shadow: var(--shadow-cinematic); }
+  .shadow-cinematic-strong { box-shadow: var(--shadow-cinematic-strong); }
+  .bg-gradient-cinematic { background: var(--gradient-cinematic); }
+  .bg-gradient-rim { background: var(--gradient-rim); }
+  .cinematic-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 90% at 50% 0%, transparent 40%, hsl(33 100% 9% / 0.55) 100%),
+      linear-gradient(180deg, hsl(38 56% 60% / 0.12) 0%, transparent 35%, hsl(33 100% 9% / 0.7) 100%);
+  }
   .grain-texture {
     background-image: radial-gradient(hsl(var(--umber) / 0.04) 1px, transparent 1px);
     background-size: 4px 4px;
