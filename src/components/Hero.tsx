@@ -175,25 +175,26 @@ export const Hero = () => {
               <button
                 onClick={() => go(-1)}
                 aria-label="Previous product"
-                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 text-linen transition-colors hover:border-honey hover:text-honey"
+                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 bg-linen/[0.04] text-linen transition-all duration-300 hover:border-honey/60 hover:text-honey hover:shadow-cinematic"
               >
                 <ChevronLeft size={16} />
               </button>
               <a
                 href="#range"
                 aria-label="See all products"
-                className="grid h-12 w-12 place-items-center rounded-full bg-honey text-ink transition-transform hover:scale-105"
+                className="grid h-12 w-12 place-items-center rounded-full bg-gradient-honey text-ink shadow-cinematic transition-all duration-300 hover:scale-105 hover:shadow-cinematic-strong"
               >
                 <Plus size={18} />
               </a>
               <button
                 onClick={() => go(1)}
                 aria-label="Next product"
-                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 text-linen transition-colors hover:border-honey hover:text-honey"
+                className="grid h-10 w-10 place-items-center rounded-full border border-linen/25 bg-linen/[0.04] text-linen transition-all duration-300 hover:border-honey/60 hover:text-honey hover:shadow-cinematic"
               >
                 <ChevronRight size={16} />
               </button>
             </div>
+
           </div>
 
           {/* Right */}
