@@ -51,6 +51,16 @@
 
     --shadow-soft: 0 20px 60px -20px hsl(33 100% 14% / 0.25);
     --shadow-honey: 0 10px 40px -10px hsl(38 56% 50% / 0.45);
+    --shadow-cinematic:
+      0 0 0 1px hsl(38 56% 50% / 0.25),
+      0 8px 30px -8px hsl(38 56% 50% / 0.35),
+      0 40px 90px -30px hsl(33 100% 9% / 0.85);
+    --shadow-cinematic-strong:
+      0 0 0 1px hsl(38 56% 60% / 0.35),
+      0 10px 34px -6px hsl(38 56% 50% / 0.55),
+      0 50px 110px -30px hsl(33 100% 9% / 0.9);
+    --gradient-cinematic: radial-gradient(circle at 50% 20%, hsl(38 56% 60% / 0.45) 0%, hsl(38 56% 50% / 0.18) 40%, transparent 70%);
+    --gradient-rim: conic-gradient(from 210deg, hsl(38 56% 60% / 0.55), hsl(30 55% 22% / 0.1) 35%, hsl(38 56% 50% / 0.5) 65%, hsl(33 100% 14% / 0.1) 100%);
 
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   }
