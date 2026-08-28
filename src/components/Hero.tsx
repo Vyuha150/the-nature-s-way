@@ -16,12 +16,17 @@ const showcase = [
 ];
 
 const ticker = [
-  "Foxtail Millet — New Harvest",
-  "7-Grain Atta — Stone-ground",
-  "Use NATURE10 · 10% off (min ₹500)",
-  "Moringa Leaf — Shade-dried",
-  "Khajoor Reserve — Tree-ripened",
-  "Seven-Seed Blend — Cold-stored",
+  { text: "Loyalty Member? Earn 1 Point per ₹10 spent", offer: true },
+  { text: "Use NATURE10 · Flat 10% off above ₹500", offer: true },
+  { text: "Subscribe & Save · Extra 15% on recurring orders", offer: true },
+  { text: "Foxtail Millet — New Harvest", offer: false },
+  { text: "First Order Free Shipping · Code WELCOME", offer: true },
+  { text: "7-Grain Atta — Stone-ground", offer: false },
+  { text: "Refer a Friend · Both get ₹100 off", offer: true },
+  { text: "Moringa Leaf — Shade-dried", offer: false },
+  { text: "Member Exclusive · Early access to new harvests", offer: true },
+  { text: "Khajoor Reserve — Tree-ripened", offer: false },
+  { text: "Seven-Seed Blend — Cold-stored", offer: false },
 ];
 
 const usps = [
