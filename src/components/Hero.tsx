@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, ShieldCheck, QrCode, Sprout, ChevronLeft, ChevronRight, Plus, Sun, Wheat, Truck } from "lucide-react";
+import { Leaf, ShieldCheck, QrCode, Sprout, ChevronLeft, ChevronRight, Plus, Sun, Wheat, Truck, Tag, Gift } from "lucide-react";
 import bowl from "@/assets/hero-bowl.jpg";
 import turmeric from "@/assets/prod-turmeric.jpg";
 import dates from "@/assets/prod-dates.jpg";
@@ -16,12 +16,17 @@ const showcase = [
 ];
 
 const ticker = [
-  "Foxtail Millet — New Harvest",
-  "7-Grain Atta — Stone-ground",
-  "Use NATURE10 · 10% off (min ₹500)",
-  "Moringa Leaf — Shade-dried",
-  "Khajoor Reserve — Tree-ripened",
-  "Seven-Seed Blend — Cold-stored",
+  { text: "Loyalty Member? Earn 1 Point per ₹10 spent", offer: true },
+  { text: "Use NATURE10 · Flat 10% off above ₹500", offer: true },
+  { text: "Subscribe & Save · Extra 15% on recurring orders", offer: true },
+  { text: "Foxtail Millet — New Harvest", offer: false },
+  { text: "First Order Free Shipping · Code WELCOME", offer: true },
+  { text: "7-Grain Atta — Stone-ground", offer: false },
+  { text: "Refer a Friend · Both get ₹100 off", offer: true },
+  { text: "Moringa Leaf — Shade-dried", offer: false },
+  { text: "Member Exclusive · Early access to new harvests", offer: true },
+  { text: "Khajoor Reserve — Tree-ripened", offer: false },
+  { text: "Seven-Seed Blend — Cold-stored", offer: false },
 ];
 
 const usps = [
@@ -61,9 +66,16 @@ export const Hero = () => {
               className="flex shrink-0 items-center"
             >
               {ticker.map((t) => (
-                <span key={t + dup} className="flex items-center gap-3 px-8 text-[11px] uppercase tracking-[0.2em] text-honey">
-                  <Leaf size={12} strokeWidth={1.5} />
-                  {t}
+                <span
+                  key={t.text + dup}
+                  className={`flex items-center gap-3 px-6 py-1 text-[11px] uppercase tracking-[0.2em] ${
+                    t.offer
+                      ? "rounded-full bg-honey px-5 text-ink shadow-[0_0_18px_rgba(234,179,8,0.35)]"
+                      : "text-honey"
+                  }`}
+                >
+                  {t.offer ? <Gift size={12} strokeWidth={1.5} /> : <Leaf size={12} strokeWidth={1.5} />}
+                  {t.text}
                 </span>
               ))}
             </motion.div>
