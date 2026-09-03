@@ -45,7 +45,6 @@ const Index = () => {
       <Testimonials />
       <CtaBanner />
       <Contact />
-      <OffersTicker />
       <Footer />
     </main>
   );
