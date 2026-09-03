@@ -11,6 +11,7 @@ import { Trace } from "@/components/Trace";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaBanner } from "@/components/CtaBanner";
 import { Contact } from "@/components/Contact";
+import { OffersTicker } from "@/components/OffersTicker";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
 
@@ -43,6 +44,7 @@ const Index = () => {
       <Testimonials />
       <CtaBanner />
       <Contact />
+      <OffersTicker />
       <Footer />
     </main>
   );
