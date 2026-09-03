@@ -33,6 +33,7 @@ const Index = () => {
     <main className="min-h-screen bg-linen">
       <Nav />
       <Hero />
+      <OffersTicker />
       <NatureSource />
       <Services />
       <Philosophy />
@@ -44,7 +45,6 @@ const Index = () => {
       <Testimonials />
       <CtaBanner />
       <Contact />
-      <OffersTicker />
       <Footer />
     </main>
   );
