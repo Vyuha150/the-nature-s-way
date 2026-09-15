@@ -18,6 +18,8 @@ const products = [
     t: "Erode Turmeric",
     c: "Hand-pulled · sun-cured 14 days",
     stat: "4.8% curcumin",
+    cat: "Herbal Powders",
+    price: 260,
   },
   {
     kind: "image" as const,
@@ -25,6 +27,8 @@ const products = [
     t: "Khajoor Reserve",
     c: "Tree-ripened · sun-dried",
     stat: "0g added sugar",
+    cat: "Dry Fruits",
+    price: 420,
   },
   {
     kind: "video" as const,
@@ -33,6 +37,8 @@ const products = [
     t: "Seven-Seed Blend",
     c: "Cold-stored · linen-pouched",
     stat: "7 native seeds",
+    cat: "Seeds & Nuts",
+    price: 310,
   },
   {
     kind: "image" as const,
@@ -40,6 +46,8 @@ const products = [
     t: "Moringa Leaf",
     c: "Shade-dried · stone-milled",
     stat: "92 nutrients",
+    cat: "Herbal Powders",
+    price: 180,
   },
   {
     kind: "image" as const,
@@ -47,6 +55,8 @@ const products = [
     t: "7-Grain Atta",
     c: "Stone-ground · breath-cool",
     stat: "0°C above ambient",
+    cat: "Grains & Flours",
+    price: 240,
   },
   {
     kind: "image" as const,
@@ -54,6 +64,8 @@ const products = [
     t: "Foxtail Millet",
     c: "Heritage cultivar · rain-fed",
     stat: "11g protein / 100g",
+    cat: "Grains & Flours",
+    price: 150,
   },
 ];
 
