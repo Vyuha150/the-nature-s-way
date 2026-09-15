@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Leaf, ShieldCheck, QrCode, Sprout, ChevronLeft, ChevronRight, Plus, Sun, Wheat, Truck, Tag, Gift } from "lucide-react";
+import { Leaf, ShieldCheck, QrCode, Sprout, ChevronLeft, ChevronRight, Plus, Sun, Wheat, Truck } from "lucide-react";
 import bowl from "@/assets/hero-native-bowl.jpg";
 import turmeric from "@/assets/hero-turmeric.jpg";
 import dates from "@/assets/hero-dates.jpg";
