@@ -6,6 +6,9 @@ import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
 import { Range } from "@/components/Range";
 import { Gallery } from "@/components/Gallery";
+import { ProductActions } from "@/shop/components/ProductActions";
+import { makeLocalProduct } from "@/shop/utils/localProduct";
+import { formatRupee } from "@/shop/utils/currency";
 import flat from "@/assets/products-flat.jpg";
 import turmeric from "@/assets/prod-turmeric.jpg";
 import dates from "@/assets/prod-dates.jpg";
@@ -70,14 +73,16 @@ const RangePage = () => {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((p, i) => (
+            {featured
+              .filter((p) => active === "All" || p.cat === active)
+              .map((p, i) => (
               <motion.article
                 key={p.t + i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
-                className="group cursor-pointer overflow-hidden rounded-sm border border-umber/10 bg-linen shadow-soft transition-all hover:-translate-y-1 hover:shadow-honey"
+                className="group overflow-hidden rounded-sm border border-umber/10 bg-linen shadow-soft transition-all hover:-translate-y-1 hover:shadow-honey"
               >
                 <div className="aspect-square overflow-hidden bg-grain">
                   <img src={p.img} alt={p.t} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" />
@@ -85,12 +90,17 @@ const RangePage = () => {
                 <div className="p-5">
                   <div className="text-[10px] uppercase tracking-[0.3em] text-honey">{p.c}</div>
                   <h3 className="mt-2 font-display text-xl text-umber">{p.t}</h3>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="font-display text-lg text-umber">{p.price}</span>
+                  <div className="mt-3 flex items-center justify-between">
+                    <span className="font-display text-lg text-umber">{formatRupee(p.price)}</span>
                     <Link to="/shop" className="text-[10px] uppercase tracking-[0.3em] text-earth/60 transition-colors group-hover:text-honey">
-                      Shop -&gt;
+                      Details -&gt;
                     </Link>
                   </div>
+                  <ProductActions
+                    size="sm"
+                    className="mt-4"
+                    product={makeLocalProduct({ name: p.t, category: p.cat, price: p.price, description: p.c })}
+                  />
                 </div>
               </motion.article>
             ))}
