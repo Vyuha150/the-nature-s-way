@@ -7,6 +7,9 @@ import moringa from "@/assets/prod-moringa.jpg";
 import flour from "@/assets/story-flour.jpg";
 import grains from "@/assets/hero-grains.jpg";
 import heroVideoAsset from "@/assets/nature-hero.mp4.asset.json";
+import { ProductActions } from "@/shop/components/ProductActions";
+import { makeLocalProduct } from "@/shop/utils/localProduct";
+import { formatRupee } from "@/shop/utils/currency";
 
 const HERO_VIDEO = heroVideoAsset.url;
 
@@ -239,11 +242,18 @@ export const NatureSource = () => {
                   {p.stat}
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/80 to-transparent p-6 pt-16">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent p-6 pt-16">
                   <div className="text-[10px] uppercase tracking-[0.3em] text-honey">
                     {p.c}
                   </div>
                   <h4 className="mt-1 font-display text-2xl text-linen">{p.t}</h4>
+                  <div className="mt-2 font-display text-lg text-honey">{formatRupee(p.price)}</div>
+                  <ProductActions
+                    tone="dark"
+                    size="sm"
+                    className="mt-4"
+                    product={makeLocalProduct({ name: p.t, category: p.cat, price: p.price, description: p.c })}
+                  />
                 </div>
               </motion.article>
             ))}
