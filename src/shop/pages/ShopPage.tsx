@@ -3,9 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
-import { Button } from "@/components/ui/button";
 import { shopApi } from "../api/shop";
-import { useCart } from "../context/CartContext";
+import { ProductActions } from "../components/ProductActions";
 import { formatRupee } from "../utils/currency";
 import flat from "@/assets/products-flat.jpg";
 
