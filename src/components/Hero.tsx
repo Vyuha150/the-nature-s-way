@@ -68,13 +68,9 @@ export const Hero = () => {
               {ticker.map((t) => (
                 <span
                   key={t.text + dup}
-                  className={`flex items-center gap-3 px-6 py-1 text-[11px] uppercase tracking-[0.2em] ${
-                    t.offer
-                      ? "rounded-full bg-honey px-5 text-ink shadow-[0_0_18px_rgba(234,179,8,0.35)]"
-                      : "text-honey"
-                  }`}
+                  className="flex items-center gap-3 px-6 py-1 text-[11px] uppercase tracking-[0.2em] text-honey"
                 >
-                  {t.offer ? <Gift size={12} strokeWidth={1.5} /> : <Leaf size={12} strokeWidth={1.5} />}
+                  <Leaf size={12} strokeWidth={1.5} />
                   {t.text}
                 </span>
               ))}
