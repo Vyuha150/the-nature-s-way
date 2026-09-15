@@ -3,15 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageHero } from "@/components/PageHero";
-import { Button } from "@/components/ui/button";
 import { shopApi } from "../api/shop";
-import { useCart } from "../context/CartContext";
+import { ProductActions } from "../components/ProductActions";
 import { formatRupee } from "../utils/currency";
 import flat from "@/assets/products-flat.jpg";
 
 export default function ShopPage() {
   const { data } = useQuery({ queryKey: ["shop", "products"], queryFn: () => shopApi.listProducts({ limit: 100 }) });
-  const { addItem } = useCart();
+  
 
   useEffect(() => {
     document.title = "Shop — The Nature's Way";
@@ -42,8 +41,11 @@ export default function ShopPage() {
                   <p className="mt-2 text-sm text-earth/70 line-clamp-2">{p.description || ""}</p>
                   <div className="mt-6 flex items-center justify-between">
                     <span className="font-display text-xl text-umber">{formatRupee(p.price)}</span>
-                    <Button size="sm" onClick={() => addItem(p, 1)}>Add to cart</Button>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-earth/60">
+                      {p.stock > 0 ? `${p.stock} in stock` : "Sold out"}
+                    </span>
                   </div>
+                  <ProductActions product={p} size="sm" className="mt-4" />
                 </div>
               </article>
             ))}

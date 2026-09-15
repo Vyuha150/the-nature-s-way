@@ -7,6 +7,9 @@ import moringa from "@/assets/prod-moringa.jpg";
 import flour from "@/assets/story-flour.jpg";
 import grains from "@/assets/hero-grains.jpg";
 import heroVideoAsset from "@/assets/nature-hero.mp4.asset.json";
+import { ProductActions } from "@/shop/components/ProductActions";
+import { makeLocalProduct } from "@/shop/utils/localProduct";
+import { formatRupee } from "@/shop/utils/currency";
 
 const HERO_VIDEO = heroVideoAsset.url;
 
@@ -18,6 +21,8 @@ const products = [
     t: "Erode Turmeric",
     c: "Hand-pulled · sun-cured 14 days",
     stat: "4.8% curcumin",
+    cat: "Herbal Powders",
+    price: 260,
   },
   {
     kind: "image" as const,
@@ -25,6 +30,8 @@ const products = [
     t: "Khajoor Reserve",
     c: "Tree-ripened · sun-dried",
     stat: "0g added sugar",
+    cat: "Dry Fruits",
+    price: 420,
   },
   {
     kind: "video" as const,
@@ -33,6 +40,8 @@ const products = [
     t: "Seven-Seed Blend",
     c: "Cold-stored · linen-pouched",
     stat: "7 native seeds",
+    cat: "Seeds & Nuts",
+    price: 310,
   },
   {
     kind: "image" as const,
@@ -40,6 +49,8 @@ const products = [
     t: "Moringa Leaf",
     c: "Shade-dried · stone-milled",
     stat: "92 nutrients",
+    cat: "Herbal Powders",
+    price: 180,
   },
   {
     kind: "image" as const,
@@ -47,6 +58,8 @@ const products = [
     t: "7-Grain Atta",
     c: "Stone-ground · breath-cool",
     stat: "0°C above ambient",
+    cat: "Grains & Flours",
+    price: 240,
   },
   {
     kind: "image" as const,
@@ -54,6 +67,8 @@ const products = [
     t: "Foxtail Millet",
     c: "Heritage cultivar · rain-fed",
     stat: "11g protein / 100g",
+    cat: "Grains & Flours",
+    price: 150,
   },
 ];
 
@@ -227,11 +242,18 @@ export const NatureSource = () => {
                   {p.stat}
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/80 to-transparent p-6 pt-16">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/85 to-transparent p-6 pt-16">
                   <div className="text-[10px] uppercase tracking-[0.3em] text-honey">
                     {p.c}
                   </div>
                   <h4 className="mt-1 font-display text-2xl text-linen">{p.t}</h4>
+                  <div className="mt-2 font-display text-lg text-honey">{formatRupee(p.price)}</div>
+                  <ProductActions
+                    tone="dark"
+                    size="sm"
+                    className="mt-4"
+                    product={makeLocalProduct({ name: p.t, category: p.cat, price: p.price, description: p.c })}
+                  />
                 </div>
               </motion.article>
             ))}

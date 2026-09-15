@@ -1,38 +1,51 @@
 import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { toast } from "sonner";
 import flat from "@/assets/products-flat.jpg";
+import { useCart } from "@/shop/context/CartContext";
+import { makeLocalProduct } from "@/shop/utils/localProduct";
+import { formatRupee } from "@/shop/utils/currency";
 
 const categories = [
   {
     name: "Whole Grain & Flour Bases",
+    price: 240,
     items: ["Ancient grain flour blend (7-grain)", "Stone-ground bajra flour", "Sprouted ragi powder", "Certified amaranth grain pack", "Foxtail millet breakfast grain", "Barnyard millet khichdi mix", "Cold-milled jowar atta"],
   },
   {
     name: "Seed, Nut & Dry Fruit Packs",
+    price: 320,
     items: ["Traceable mixed seed pack", "Wildcraft walnut halves", "Cold-pressed flaxseed mix", "Activated almond pouch", "Sundried apricot (no sulfur)", "Organic raisin + nut trail mix", "Premium pumpkin seed pack"],
   },
   {
     name: "Herbal & Functional Powders",
+    price: 220,
     items: ["Amla powder (cold-processed)", "Moringa leaf powder (farm-traced)", "Ashwagandha root extract", "Shatavari women's blend", "Triphala daily powder", "Brahmi cognitive blend", "Giloy immunity powder"],
   },
   {
     name: "Ready Mixes & Premixes",
+    price: 260,
     items: ["Sprouted dal soup premix", "Whole grain dosa batter mix", "Ancient grain porridge blend", "High-fiber idli premix", "Overnight oats kit", "Sattu energy drink mix", "Multigrain chilla mix"],
   },
   {
     name: "Snacks & Bars",
+    price: 190,
     items: ["Whole seed chikki (jaggery-bound)", "Date + nut energy ball pack", "Baked jowar puffs", "Activated seed cracker", "Dried fig + walnut bar", "Roasted makhana (no oil)", "Spirulina energy bite"],
   },
   {
     name: "Beverages & Elixirs",
+    price: 210,
     items: ["Cold-pressed amla shot", "Moringa + ginger green drink", "Ashwagandha oat latte mix", "Beetroot + carrot juice blend", "Tulsi + ginger immunity brew", "Hibiscus herbal cooler", "Turmeric golden milk blend"],
   },
   {
     name: "Pastes, Butters & Condiments",
+    price: 280,
     items: ["Stone-ground til (sesame) paste", "Raw groundnut butter (unroasted)", "Whole fruit amla preserve", "Wild honey (single-origin)", "Kokum concentrate (no sugar)", "Tamarind date chutney (clean)", "Moringa pesto"],
   },
 ];
 
 export const Range = () => {
+  const { addItem } = useCart();
   return (
     <section id="range" className="relative bg-linen py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -71,14 +84,24 @@ export const Range = () => {
                 <h3 className="font-display text-2xl text-umber">{c.name}</h3>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                {c.items.map((it) => (
-                  <span
-                    key={it}
-                    className="cursor-default rounded-full border border-umber/20 bg-linen px-4 py-2 text-xs text-earth transition-all hover:border-honey hover:bg-honey/10 hover:text-umber"
-                  >
-                    {it}
-                  </span>
-                ))}
+                {c.items.map((it) => {
+                  const product = makeLocalProduct({ name: it, category: c.name, price: c.price });
+                  return (
+                    <button
+                      key={it}
+                      onClick={() => {
+                        addItem(product, 1);
+                        toast.success(`${it} added to cart`);
+                      }}
+                      aria-label={`Add ${it} to cart`}
+                      className="group/chip inline-flex items-center gap-2 rounded-full border border-umber/20 bg-linen px-4 py-2 text-xs text-earth transition-all hover:border-honey hover:bg-honey/10 hover:text-umber"
+                    >
+                      {it}
+                      <span className="text-[10px] text-honey">{formatRupee(c.price)}</span>
+                      <Plus size={12} className="text-honey" />
+                    </button>
+                  );
+                })}
               </div>
             </motion.div>
           ))}
