@@ -71,14 +71,24 @@ export const Range = () => {
                 <h3 className="font-display text-2xl text-umber">{c.name}</h3>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                {c.items.map((it) => (
-                  <span
-                    key={it}
-                    className="cursor-default rounded-full border border-umber/20 bg-linen px-4 py-2 text-xs text-earth transition-all hover:border-honey hover:bg-honey/10 hover:text-umber"
-                  >
-                    {it}
-                  </span>
-                ))}
+                {c.items.map((it) => {
+                  const product = makeLocalProduct({ name: it, category: c.name, price: c.price });
+                  return (
+                    <button
+                      key={it}
+                      onClick={() => {
+                        addItem(product, 1);
+                        toast.success(`${it} added to cart`);
+                      }}
+                      aria-label={`Add ${it} to cart`}
+                      className="group/chip inline-flex items-center gap-2 rounded-full border border-umber/20 bg-linen px-4 py-2 text-xs text-earth transition-all hover:border-honey hover:bg-honey/10 hover:text-umber"
+                    >
+                      {it}
+                      <span className="text-[10px] text-honey">{formatRupee(c.price)}</span>
+                      <Plus size={12} className="text-honey" />
+                    </button>
+                  );
+                })}
               </div>
             </motion.div>
           ))}
