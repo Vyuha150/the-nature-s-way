@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
+import { toast } from "sonner";
 import flat from "@/assets/products-flat.jpg";
+import { useCart } from "@/shop/context/CartContext";
+import { makeLocalProduct } from "@/shop/utils/localProduct";
+import { formatRupee } from "@/shop/utils/currency";
 
 const categories = [
   {
