@@ -10,7 +10,7 @@ import flat from "@/assets/products-flat.jpg";
 
 export default function ShopPage() {
   const { data } = useQuery({ queryKey: ["shop", "products"], queryFn: () => shopApi.listProducts({ limit: 100 }) });
-  const { addItem } = useCart();
+  
 
   useEffect(() => {
     document.title = "Shop — The Nature's Way";
