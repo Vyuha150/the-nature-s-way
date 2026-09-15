@@ -15,14 +15,14 @@ import flour from "@/assets/story-flour.jpg";
 import grains from "@/assets/hero-grains.jpg";
 
 const featured = [
-  { img: turmeric, t: "Erode Turmeric Root", c: "Single-origin · 4.8% curcumin", price: "₹260" },
-  { img: dates, t: "Khajoor Reserve", c: "Sun-dried · No glucose", price: "₹420" },
-  { img: seeds, t: "Seven-Seed Blend", c: "Cold-stored · 250g", price: "₹310" },
-  { img: moringa, t: "Moringa Leaf Powder", c: "Shade-dried · TN", price: "₹180" },
-  { img: flour, t: "7-Grain Atta", c: "Stone-milled · 1kg", price: "₹240" },
-  { img: grains, t: "Foxtail Millet", c: "Heritage cultivar · 500g", price: "₹150" },
-  { img: flat, t: "Pantry Trial Box", c: "12 sample pouches", price: "₹990" },
-  { img: turmeric, t: "Golden Milk Blend", c: "Turmeric · ginger · pepper", price: "₹280" },
+  { img: turmeric, t: "Erode Turmeric Root", c: "Single-origin · 4.8% curcumin", price: 260, cat: "Powders" },
+  { img: dates, t: "Khajoor Reserve", c: "Sun-dried · No glucose", price: 420, cat: "Seeds & Nuts" },
+  { img: seeds, t: "Seven-Seed Blend", c: "Cold-stored · 250g", price: 310, cat: "Seeds & Nuts" },
+  { img: moringa, t: "Moringa Leaf Powder", c: "Shade-dried · TN", price: 180, cat: "Powders" },
+  { img: flour, t: "7-Grain Atta", c: "Stone-milled · 1kg", price: 240, cat: "Flours" },
+  { img: grains, t: "Foxtail Millet", c: "Heritage cultivar · 500g", price: 150, cat: "Flours" },
+  { img: flat, t: "Pantry Trial Box", c: "12 sample pouches", price: 990, cat: "Mixes" },
+  { img: turmeric, t: "Golden Milk Blend", c: "Turmeric · ginger · pepper", price: 280, cat: "Beverages" },
 ];
 
 const filters = ["All", "Flours", "Powders", "Seeds & Nuts", "Mixes", "Beverages"];
