@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Leaf, ShieldCheck, QrCode, Sprout, ChevronLeft, ChevronRight, Plus, Sun, Wheat, Truck, Tag, Gift } from "lucide-react";
-import bowl from "@/assets/hero-bowl.jpg";
-import turmeric from "@/assets/prod-turmeric.jpg";
-import dates from "@/assets/prod-dates.jpg";
-import seeds from "@/assets/prod-seeds.jpg";
-import moringa from "@/assets/prod-moringa.jpg";
+import bowl from "@/assets/hero-native-bowl.jpg";
+import turmeric from "@/assets/hero-turmeric.jpg";
+import dates from "@/assets/hero-dates.jpg";
+import seeds from "@/assets/hero-seven-seeds.jpg";
+import moringa from "@/assets/hero-moringa.jpg";
 
 const showcase = [
   { img: bowl, name: "Native Bowl" },
@@ -171,8 +171,8 @@ export const Hero = () => {
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="h-full w-full object-cover"
-                    width={800}
-                    height={800}
+                    width={1024}
+                    height={1024}
                   />
                 </AnimatePresence>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-honey/10" />
